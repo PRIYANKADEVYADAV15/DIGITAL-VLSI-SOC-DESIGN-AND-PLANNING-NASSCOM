@@ -22,6 +22,12 @@
 #### Given below is the layout starting from writing the C program which is then converted into Assembly Language--> It is converted into Machine Language--> Then into Binary format--> The bits are then executed in the layout.
 #### ![RICS-V architechture](https://github.com/user-attachments/assets/bb9be63d-7cce-4d5e-968e-4757ab9f48e2)
 
+### From Software Applications to Hardware
+#### Applications that we use on a system run inside the laptop/PC which is actually the hardware, how does it happen? Here we will try to answer this question.
+#### The Application software enters into block called "System Software" which converst the application into a Binary language. 
+#### Now the System Software has three components: Operating System, Compiler and Assembler
+#### Operating System- The OS handles all the operations, Allocate memory and the other part of OS is to take the particular app and convert it into respective Assembly Language program and finally to binary language program so that it is understood by the hardware
+
 
 
 
