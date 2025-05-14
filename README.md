@@ -100,6 +100,30 @@ No Timing violations </br>
 #### OpenLane has 'Design Exploration' utility which  is used to sweep design configurations. It can also be used for Regression Testing(CI). We run the OpenLane on approx. 70 designs and compare the results to the best ones.
 ![image](https://github.com/user-attachments/assets/8f609077-39c2-42c4-8c64-ba68f478db60)
 
+#### Next step is testing or DFT(Design For Testing) which uses the open-source tool 'Fault' to perform: Scan Insertion, Automatic test pattern Generation(ATPG), Test pattern compaction, Fault Coverage and fault Simulation.
+![image](https://github.com/user-attachments/assets/801ee4ed-f17d-421e-abf7-76ba4dd6b09e)
+
+#### Physical Implementation uses OpenROAD app and performs tasks like:
+Floor/Power Planning </br>
+End Decoupling Capacitors and Tap cells insertion </br>
+Placement: Global and Detailed </br>
+Post Placement Optimization </br>
+Clock Tree synthesis(CTS) </br>
+Routing: Global and detailed </br>
+
+#### Everytime the netlist is modified, verification must be performed. CTS and post placement optimizations modifies the netlist.
+#### LEC(Logic Equivalent Checking) is used to formally confirm that the function did not change after netlist.
+#### During Physical Implementation, there can be 'Antenna Rule Violation', a condition where a portion of a wire (usually metal) acts like an antenna and unintentionally accumulates electrical charge during fabrication, which can damage the gate of a MOSFET connected to that wire. Therfore, the length profiles of the wire must be addressed before to avoid this issue.
+![image](https://github.com/user-attachments/assets/102aa84d-7294-4f7d-b36a-367249a2eded)
+
+#### To avoid this, there are two solutions:
+Bridging: Bridging attaches a higher layer intermidiary. </br>
+Add Antenna diode cell to leak away charges, antenna diodes are provides by SCL(Standard cell library). </br>
+![image](https://github.com/user-attachments/assets/a9b47fe4-1eb8-4e40-872d-ade5723d7528)
+
+
+
+
 
 
 
