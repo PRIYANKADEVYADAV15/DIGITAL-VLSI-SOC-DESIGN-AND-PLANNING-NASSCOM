@@ -72,6 +72,7 @@
 #### The sky130 PDK defines 6 routing layers. The lowest layer is called the 'Local Interconnect layer' adds TiN layer and the following five layers are Aluminum layers. Most routers are Grid Routers, they construct routing grid out of the metal layer tracks. As the routing grid is huge-->'Divide and Conquer' approach is used in routing. There exist two types of routing;
 Global Routing-It estimates rough routing guides, doesn't place the actual wires-just reserves the resources.
 Detailed Routing-It uses the routing guides to implement the wires.It meets the DRC(Design Rule check).
+
 ![image](https://github.com/user-attachments/assets/20ec8827-6745-4883-992f-20035bf59650)
 
 #### STEP6: SIGN OFF- Once Routing is done, we go for final checking, which includes physical and timing verification.
