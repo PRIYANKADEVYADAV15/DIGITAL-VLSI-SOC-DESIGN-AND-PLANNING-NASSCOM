@@ -77,7 +77,19 @@ Detailed Routing-It uses the routing guides to implement the wires.It meets the 
 
 #### STEP6: SIGN OFF- Once Routing is done, we go for final checking, which includes physical and timing verification.
 **Physical verification** includes Design Rule Checking(DRC) and Layout vs Schematic(LVS) ensures that the final layout matches with the gate level netlist.
+
 **Timing Verification** includes Static Timing Analysis(STA) to make sure that all timing constraints are met.
+
+### 3.Introduction to OpenLANE and Strive chipsets
+#### For achieving the open source ASIC flow, we will be using the tool openLANE. OpenLane is an open-source automated RTL-to-GDSII flow for digital ASIC design. It is part of the OpenROAD and Skywater PDK ecosystem, enabling users to take a design from RTL (e.g., Verilog) all the way to a tapeout-ready layout (GDSII) using fully open-source tools. It has integrated tools for all the steps for ASIC design flow. OpenLANE is started as an Open source flow for a true Open -source tape-out experiment. At the Fabless, there is a family of Open everything SOCs called Strive, which includes; open RTL, Open EDA and open PDK.
+![image](https://github.com/user-attachments/assets/688433de-53cd-41b0-b202-bda7de97299b)
+
+#### The main goal of OpenLANE is to produce clean GDSII with no human intervention(no-human-in-the-loop)
+#### Clean means: 
+No LVS violations
+No DRC violations
+No Timing violations
+
 
 
 
