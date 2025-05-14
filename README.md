@@ -89,6 +89,18 @@ Detailed Routing-It uses the routing guides to implement the wires.It meets the 
 No LVS violations </br>
 No DRC violations </br>
 No Timing violations </br>
+#### It is tuned for skyWater130 nm open PDK. Also supports XFAB180 and GF130. It can be used to harden(implement) Macrso and Chips.
+#### It has two modes of operation: Autonomous and Interactive.
+#### OpenLANE comes with large number of design examples , currently there are 43 designs with their best configurations.
+
+### 4. Introduction to OpenLANE detailed ASIC design flow
+![image](https://github.com/user-attachments/assets/61fbf850-0b17-4c6a-9e3c-ee36e8847401)
+#### The OpenLANE ASIC flow has many steps, as explained before the flow starts with RTL design and ends with final layout in GDSII format and to function it needs PDK.OpenLANE is based on several open-source projects such as OpenRoad, yosys, ABC, Qflow and so on.
+#### The flow starts with RTL synthesis, the RTL is fed to yosys with design constraints, Yosys translates RTL into logic circuits. This can be optimized usinfg library tool ABC. ABC has to be guided during optimization and this comes in the form of ABC script. Different designs can use different strategies to achieve objectives, and for that we have 'Synthesis Exploration' utility that can be used to generate reports.
+#### OpenLane has 'Design Exploration' utility which  is used to sweep design configurations. It can also be used for Regression Testing(CI). We run the OpenLane on approx. 70 designs and compare the results to the best ones.
+![image](https://github.com/user-attachments/assets/8f609077-39c2-42c4-8c64-ba68f478db60)
+
+
 
 
 
