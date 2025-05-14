@@ -129,6 +129,10 @@ Add a Fake Antenna diode next to every cell input after the placement. Run the A
  Static Timing analysis(STA) involves the interconnect RC Extraction(DEF2SPEF) from the routed layout, followed by STA on OpenSTA(OpenROAD) tool, resulting report will highlighting timing violations if any violations is there. </br>
  Physical Sign off involves DRC and LVS, Magic is used for Design Rule Checking and SPICE extracted from Layout. Magic and Netgen are used for LVS </br>
 
+ ## Get familiar to open-source EDA tools
+ ### 1.OpenLANE Directory structure in detail
+ #### 
+
  
  
 
