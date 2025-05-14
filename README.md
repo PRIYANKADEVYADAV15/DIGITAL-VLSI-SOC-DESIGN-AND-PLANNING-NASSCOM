@@ -86,9 +86,9 @@ Detailed Routing-It uses the routing guides to implement the wires.It meets the 
 
 #### The main goal of OpenLANE is to produce clean GDSII with no human intervention(no-human-in-the-loop)
 #### Clean means: 
-No LVS violations
-No DRC violations
-No Timing violations
+No LVS violations </br>
+No DRC violations </br>
+No Timing violations </br>
 
 
 
