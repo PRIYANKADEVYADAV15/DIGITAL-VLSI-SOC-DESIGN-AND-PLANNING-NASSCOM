@@ -57,7 +57,12 @@
 
 
 #### Power planning- The power netweork is constructed, typically a chip is powered by multiple VDD and GND power pins. The power pins are connected to all components through power rings and horizontal and vertical power straps. Such parallel structures are meant to reduce resistance and also addresses the problem of electromigration.
+![image](https://github.com/user-attachments/assets/b09460f8-268a-44ae-8b41-46505943a939)
+
 #### STEP3: PLACEMENT- We place the gate level netlist cells on the floorplan rows, aligned with the sites to reduce interconnected delays and enable successful routing. Done in Two steps; Global followed by Detailed Placement
+![image](https://github.com/user-attachments/assets/10570d22-f6b3-4c0d-b006-e8a40edea883)
+#### Global Placement- The main purpose is to find the approximate locations for all cells to minimize wirelength and congestion.
+
 #### STEP4: 
 
 
