@@ -131,7 +131,13 @@ Add a Fake Antenna diode next to every cell input after the placement. Run the A
 
  ## Get familiar to open-source EDA tools
  ### 1.OpenLANE Directory structure in detail
- #### 
+ #### Considering some basic linux commands. We will be working in directory 'sky130_fd-sc-hd' in the 'libs.ref' file.
+ (sky130_fd_sc_hd) here sky130 is the PDK name in OpenLane, fd is the foundary, sc means standard cell and hd is high density variant. </br>
+ ![image](https://github.com/user-attachments/assets/61896acd-acf8-429e-a639-df3b544d0388)
+
+ 
+
+ 
 
  
  
