@@ -189,6 +189,18 @@ Also by going inside the reports, we get the statistics file where we get the nu
 # Sky130 Day 2 - Good floorplan vs bad floorplan and introduction to library cells
 ## Chip Floor planning consideration
 ### 1. Utilization factor and aspect ratio
+#### In this the first step in the physical design is to decide what is the width and height of the Die and Core. We will start with the basic netlist.
+![image](https://github.com/user-attachments/assets/911cecbc-fad0-4f1d-bb87-c97207ba4115)
+Considering the basic netlist-->consists of two FFs(launch clock and capture clock), and gate and or gate. The given image is a netlist, a 'netlist' defines the connectivity between all the components.</br>
+We are dependent on the dimensions of logic gates and FFs. We will try to give proper length and breadth to this particular gate.
+![image](https://github.com/user-attachments/assets/3c12d693-42fd-4202-b94d-0d05f21c6d03)
+Next, we are actually interested in finding the dimensions of core and die rather than the wires as of now.So, we will find the dimensions of the standard cells first.</br>
+Considering the dimensions of standard cells as 1unit X 1unit, the Area we get = 1 sq. units </br>
+With the help of netlist, we will identify the Area occupied by the std. cells on the silicon wafer. Before that Let's remove the wires and place them together(as shown below).</br>
+![image](https://github.com/user-attachments/assets/08092309-6908-4329-8dab-ab44a59872a5)
+
+
+
 
 
  
