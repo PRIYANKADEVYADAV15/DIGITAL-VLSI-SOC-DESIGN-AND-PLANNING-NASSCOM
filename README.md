@@ -153,6 +153,40 @@ Add a Fake Antenna diode next to every cell input after the placement. Run the A
  ![image](https://github.com/user-attachments/assets/0e2ab78f-d8ad-4f3a-b851-d716110d8931)
  #### The preparation step has been completeted
 
+ ### 3. Review files after design prep and run synthesis
+ #### After preparation is done, in picorv32a folder, runs directory is being created with today's date and time.
+ ![image](https://github.com/user-attachments/assets/c4f1e778-5bbf-4280-9ef1-411e0fdeec3d)
+ When we enter the date created folder, we will find all the folder structures required by the openlane. Every folder except tmp will be empty. tmp is the folder where every file is being stored. In tmp--> write command less merged.lef, it is the file which was created during preparation time which includes wire. layer levels, vias, cell level information and so on.</br>
+ ![image](https://github.com/user-attachments/assets/836a1bb7-9483-4909-abb4-219b6d064c3f)
+ ![image](https://github.com/user-attachments/assets/c82fffe0-e8d5-42a1-a9cf-d4d33d561879)
+ #### Inside the date folder we will have results and report directory, including synthesis, floor planning, routing and so on. As we have not started the synthesis these folders will be empty. Along with this we will also see the config.tcl file, it shows all the default parameters being taken by the run.
+ ![image](https://github.com/user-attachments/assets/b14b7aec-996b-45d0-819d-e6dcb2560871)
+
+ #### Now coming back to openlane prompt, after preparation we will go for synthesis by giving command: run_synthesis
+ ![image](https://github.com/user-attachments/assets/0ec91685-e0cd-492c-a80e-c2fad1fc2103)
+ #### Here you can see that the synthesis is completed
+
+ ### 4.OpenLane project Git Link description
+ #### On google you can search for openlane efabless-->click on the github link
+ ![image](https://github.com/user-attachments/assets/5e1b913b-4c93-4dad-9c6e-904efe5f1e8f)
+
+ ### 5. Steps to characterize synthesis results
+ #### After synthesis our first step would be to calculate the Flip Ratio;
+ Flip Ratio=no. of D flip flops/ No. of cells</br>
+ ![image](https://github.com/user-attachments/assets/6a29389d-6f30-43fd-ad2e-cb793dd330e5)
+ Here the number of D flip flop=1613</br>
+ No. of cells=14876</br>
+#### Therefore, Flop Ratio=1613/14876=0.10846
+#### Flip RAtio%= 10.846
+
+ 
+
+
+
+
+
+
+
 
 
  
