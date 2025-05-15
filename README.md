@@ -189,7 +189,7 @@ Also by going inside the reports, we get the statistics file where we get the nu
 # Sky130 Day 2 - Good floorplan vs bad floorplan and introduction to library cells
 ## Chip Floor planning consideration
 ### 1. Utilization factor and aspect ratio
-#### In this the first step in the physical design is to decide what is the width and height of the Die and Core. We will start with the basic netlist.
+#### In this the first step in the physical design is to DECIDE THE HEIGHT AND WIDTH OF CORE AND DIE. We will start with the basic netlist.
 ![image](https://github.com/user-attachments/assets/911cecbc-fad0-4f1d-bb87-c97207ba4115)
 Considering the basic netlist-->consists of two FFs(launch clock and capture clock), and gate and or gate. The given image is a netlist, a 'netlist' defines the connectivity between all the components.</br>
 We are dependent on the dimensions of logic gates and FFs. We will try to give proper length and breadth to this particular gate.
@@ -197,7 +197,55 @@ We are dependent on the dimensions of logic gates and FFs. We will try to give p
 Next, we are actually interested in finding the dimensions of core and die rather than the wires as of now.So, we will find the dimensions of the standard cells first.</br>
 Considering the dimensions of standard cells as 1unit X 1unit, the Area we get = 1 sq. units </br>
 With the help of netlist, we will identify the Area occupied by the std. cells on the silicon wafer. Before that Let's remove the wires and place them together(as shown below).</br>
+Now the area of the netlist becomes Area= 2units X 2units= 4 sq.units</br>
 ![image](https://github.com/user-attachments/assets/08092309-6908-4329-8dab-ab44a59872a5)
+
+#### What is a core and a die?
+On a silicon wafer, one section is die--> inside doe there is a core(a core is a section of the chip where fundamental logic of the design is placed).</br>
+(a die which consists of a core, is a small semiconductor material specimen on whcih the fundamental circuit is fabricated).</br>
+![image](https://github.com/user-attachments/assets/0f1c6cb4-3d52-4d6e-ba7a-64d0809d8fd5)
+
+#### How to arrive on it's dimensions?
+Place all the logic cells inside the core, if fits completely and utilizes all the space then this is called 100% Utilization of the core.</br>
+After this we come on to the concept of **Utilization factor=(Area occupied by the netlist)/ (Total Area of the core)**.</br>
+![image](https://github.com/user-attachments/assets/d6cb55a3-c244-4461-b552-079de4a09570)
+
+In the above example the Utilization factor=1, but practically only 50-60% utilization is possible.</br>
+#### Another important term is 'Aspect Ratio', which is Height/Width. So in this case the aspect ratio is 1 that means chip is square. If aspect ratio is not equal to 1 that means the chip is rectangle.In such case , the remaining place is optimized by using some other circuitry.
+![image](https://github.com/user-attachments/assets/100ec6cb-a7ef-4567-bc71-2fb66965b17e)
+
+### 2. Concept of pre-placed cells
+#### Let's take another example where the width and height of die is 4 units by 4 units and we have the netlist of 2units by 2 units, so if we calculate the utilization factor it will come around 25%. That means 75% of the core is empty and can be used for other optimazation, routing and wires.
+![image](https://github.com/user-attachments/assets/c715a5dd-1b5e-4ca7-bfdf-c7814c8f6405)
+
+#### Next step is DEFINE THE LOCATIONS OF PRE-PLACED CELLS, but first know about preplaced cells. Let's consider a combinational circuit(which can include mux, demux, encoder or decoder) and the equivalent circuitry consists of 100k logic gates. So we can actually minimize the gates by dividing the number of gates and turning them into different blocks. Different blocks will be implemented separately.
+![image](https://github.com/user-attachments/assets/633af475-a04f-430a-a877-b1e6b74be43e)
+
+Considering the two blocks, we separate the input output pins of both the blocks. Separate the blocks and make them a black box, the I/O pins will also be used separately. The advantage of this kind of system is that we don't have to implement the circuit multiple times, the same black box can be sent to different users for separate usage. This will reduce the number of logic gates. This a concept of Reused models.</br>
+![image](https://github.com/user-attachments/assets/13d2b25e-3cc5-4483-9b2d-1915f04ad354)
+![image](https://github.com/user-attachments/assets/9aace51a-e6cc-46e4-a4bc-94066323b41d)
+
+#### Therefore, Preplaced cells are specific standard cells or blocks (typically macros or hard IPs) that are manually positioned during the floorplanning stage of an ASIC or SoC design, before the automated placement of the rest of the standard cells. This is done to fix the position of high-performance IPs or memory blocks near certain logic to minimize delay.Placing large blocks carefully reduces routing congestion.
+These cells are placed in such a way that, the placement and routing tool do not touch the location of the cell in the further processes.</br>
+![image](https://github.com/user-attachments/assets/5752f705-7764-4cf7-a3ae-9031105ddb7a)
+
+### 3.De-Coupling Capacitors
+#### Earlier we discussed about the locations of the pre-placed cells, that is it needs to be fixed and fill not change in the further processes also.
+#### After this THE PREPLACED CELLS WILL BE SURROUNDED BY DECOUPLING CAPACITORS. Now, what are decoupling capacitors and why do we need them..?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
