@@ -173,11 +173,23 @@ Add a Fake Antenna diode next to every cell input after the placement. Run the A
  ### 5. Steps to characterize synthesis results
  #### After synthesis our first step would be to calculate the Flip Ratio;
  Flip Ratio=no. of D flip flops/ No. of cells</br>
- ![image](https://github.com/user-attachments/assets/6a29389d-6f30-43fd-ad2e-cb793dd330e5)
+![image](https://github.com/user-attachments/assets/70d80c2a-5ee9-4e5c-9ef0-bae2ee131ddd)
+![image](https://github.com/user-attachments/assets/aeb9d607-ce40-41ea-b4f6-cb1b7f1e5183)
+
+
  Here the number of D flip flop=1613</br>
- No. of cells=14876</br>
-#### Therefore, Flop Ratio=1613/14876=0.10846
-#### Flip RAtio%= 10.846
+ No. of cells=18036</br>
+#### Therefore, Flop Ratio=1613/18036=0.0894
+#### Flip RAtio%= 8.94
+
+#### In the results file, we can see inside synthesis, if we get the picorv32a.synthesis.v that means synthesis is complete
+![image](https://github.com/user-attachments/assets/8461cf9d-058c-462d-be81-7676d6289ddc)
+Also by going inside the reports, we get the statistics file where we get the number of cells and D- flip flops.
+
+# Sky130 Day 2 - Good floorplan vs bad floorplan and introduction to library cells
+## Chip Floor planning consideration
+### 1. Utilization factor and aspect ratio
+
 
  
 
