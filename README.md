@@ -131,9 +131,38 @@ Add a Fake Antenna diode next to every cell input after the placement. Run the A
 
  ## Get familiar to open-source EDA tools
  ### 1.OpenLANE Directory structure in detail
- #### Considering some basic linux commands. We will be working in directory 'sky130_fd-sc-hd' in the 'libs.ref' file.
- (sky130_fd_sc_hd) here sky130 is the PDK name in OpenLane, fd is the foundary, sc means standard cell and hd is high density variant. </br>
+ #### Considering some basic linux commands. We will be working in directory 'sky130_fd-sc-hd' in the 'libs.ref' file under 'pdks' folder.
+ (sky130_fd_sc_hd) here sky130 is the PDK name, fd is the foundary, sc means standard cell and hd is high density variant. </br>
  ![image](https://github.com/user-attachments/assets/61896acd-acf8-429e-a639-df3b544d0388)
+ 
+ ### 2.Design Preparation Step
+ #### We will be now running OpenLane. After getting into openLane directory, type 'docker'(Docker is an open-source platform that allows you to build, run, and manage lightweight, portable containers for applications. It enables you to package an application along with all its dependencies and run it reliably across different environments).
+ #### Also we will run the flow.tcl and that too with the interatcive switch so that it will run a step by srep process. If we don't use interactive switch it will run a complete flow from RTL to GDSII.
+ ![image](https://github.com/user-attachments/assets/eb0031e4-4dd7-4069-a946-b029ec5e86a9)
+
+ #### Everytime while running the openlane we need to install the package which is required, here 'package require openlane 0.9'.
+ OpenLane has it's own built in designs, here we will deal with 'picorv32a' design </br>
+ ![image](https://github.com/user-attachments/assets/ad460732-0a15-4825-8b77-c4d7e25f614e)
+ In picorv32a we have 'src' file which has the RTL netlist</br>
+ Also there is 'config.tcl' which bypasses any configuration that has been done in openlane. Many of the switches use the default that has been present in the openlane source.It overwrites the settings and become specific to the design</br>
+
+ ![image](https://github.com/user-attachments/assets/fd6a6222-b520-401c-89ab-df33b646df34)
+ ![image](https://github.com/user-attachments/assets/04a6d97f-3cff-4f10-8ca6-f99a7dd22b68)
+ Here RTL file, SDC file, clock period has already been set. Also the filename has been given, but when we run our custom file 'sky130_fd_sc_hd_config.tcl' file won't be there. Openlane takes the value in the following order: First is the default value which is already set in openlane, Second is config.tcl and thirrd is sky130_fd_sc_hd_config.tcl. So the highest priority is sky130_fd_sc_hd_config.tcl, it will overwrite the default and config.tcl.This was the design part</br>
+ Now we need to set up the file system specific to the flow that will be fetched from a particular location in openlane using the command 'prep -design picorv32a'.
+ ![image](https://github.com/user-attachments/assets/0e2ab78f-d8ad-4f3a-b851-d716110d8931)
+ #### The preparation step has been completeted
+
+
+
+ 
+
+
+ 
+
+
+ 
+ 
 
  
 
