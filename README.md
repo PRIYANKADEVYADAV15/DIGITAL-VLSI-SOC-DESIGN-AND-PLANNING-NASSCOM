@@ -265,7 +265,31 @@ Now, when the capacitors are charging from 0 to 1 so they are demanding current 
 ![image](https://github.com/user-attachments/assets/0b31b8aa-d170-4b77-9516-9ec0f66a0a62)
 
 ### 5.Pin Placement and logic cell Placement blockage
-#### 
+#### Let's consider the example design which needs to be implemented, with input-output terminals and individual clocks. Later connecting the pre-placed blocks to the below logic gates.
+![image](https://github.com/user-attachments/assets/2854f669-61fc-4207-9dba-8f4567d4bcb0)
+Now, taking one more section of the same circuitry with two different clocks for different FFs, showcasing the concept of 'Interclocks Timing Analysis'.Also, including the pre-placed cells in between.</br>
+![image](https://github.com/user-attachments/assets/2ce2a04d-7c71-4fb7-880e-326c8950cfc7)
+
+#### Showing below the complete design
+![image](https://github.com/user-attachments/assets/fe2ea2a7-f81e-4f8f-bed6-3f62c61ef62f)
+
+#### Also connecting the clocks common to the logic gates at one place. Now, the connectivity information between the gates is coded using Verilog/VHDL language and is called as 'netlist'.
+![image](https://github.com/user-attachments/assets/47f63ad2-2131-4a08-80ea-d28e97f44d5e)
+Now let's see how will bw the pin placement.We need to place the logic circuit between the gap of core and die. Here, the input port is on the left and output port is on the right, but it can vary. We observe few things here, **First** the ordering of input and output ports are random depending upon the requirements. As block a is connected to D1 and D4 inout so they are placed near to that and block b is at Dout1 and Dout 3. Also as the blocks are placed at certain area so we ensure that the cell placement is not in that area.This is where the hand-checking between frontend and backend teams comes into picture. Frontend team defiens the netlist connectivity and backend defines the pin placement. **Second** thing to observe is the size of clocks is much bigger than the size of inputs and output pins. This is because the clocks is the driving source of the I/O pins, FFs and the complete chip. So we need the least resistance path, therefore bigger the size lower is the resistance. Next we will ensure that where the pin placement has been done, we need to block that area for routing and placement tool ,This is done by 'Logical cell placement blockage'.</br>
+![image](https://github.com/user-attachments/assets/d2e5c67a-7f65-4b14-9318-b539fca523f2)
+#### After the logical cell placement blockage step our floorplan is done for placement and routing step.
+![image](https://github.com/user-attachments/assets/7e8c4491-53de-44e4-b5f2-fd94726516db)
+
+### 6. Steps to run floorplan using OpenLANE
+
+
+
+
+
+
+
+
+
 
 
 
