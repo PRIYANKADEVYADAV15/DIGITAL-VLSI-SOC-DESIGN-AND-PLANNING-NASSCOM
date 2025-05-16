@@ -332,6 +332,10 @@ Similarly, we check for vertical pins we will get metal2 as mentioned in below i
 #### We also have the standard cell at the lower left corner which represents the AND, OR,etc logic gates.
 ![image](https://github.com/user-attachments/assets/272caf5f-dd25-43e9-b337-9cd2eb8ae25f)
 
+## Library building and Placement
+### 1. Netlist binding and initial place design
+####
+
 
 
 
