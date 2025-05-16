@@ -294,6 +294,35 @@ We can see (FP_IO_MODE):1 means that the i/o pins is positioned randomly but at 
 
 Now we have seen earlier that in the openlane the lowest priority is given to system default(floorplane.tcl) then config.tcl and the highest priority is given to PDK variant.tcl(sky130A_sky130_fd_sc_hd_congig.tcl).</br>
 #### We will now run the floorplan by giving command: run_floorplan.
+![image](https://github.com/user-attachments/assets/ef771304-4605-4e73-9467-713af73c670a)
+
+### 7.Review floorplan files and steps to view floorplan
+#### As we have run the floorplan, just like we did for synthesis we will go inside picorv32a and check for the present date when the floorplan file was created. Then we will go into the floorplan, and open the directory 'ioplacer.log' and we did the placements in input output.
+![image](https://github.com/user-attachments/assets/2bbd1f12-8fad-4e24-9051-9a1a648a76db)
+
+Inside the configuration we will se the default floorplan.tcl file which will show the default settings.</br>
+To see how the floorplan looks like, we will go inside the created file by running floorplan-->results-->floorplan we will se a .def(design exchange format) file, open the def file</br>
+![image](https://github.com/user-attachments/assets/a364bda2-3721-42b3-853c-1f0091a3a27d)
+
+After opening the file we will get various parameters, the diarea which is given in databased unit. We need to convert into microns.</br>
+1 microns = 1000 database units, so given DIAREA (0 0) (66065 67145), converted into microns becomes,</br>
+**Width= 660.685 microns, Height=671.045 microns**
+![image](https://github.com/user-attachments/assets/9b852944-2da2-4ab3-ac77-d20de8ab2a79)
+
+#### To see the actual Floorplan, let us first open Magic by writing the command 'magic -T /home/kunalg123/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def'
+We will see the layout in magic</br>
+![image](https://github.com/user-attachments/assets/f9dbe342-18e8-4ea4-b7c7-fad7c1b2151d)
+
+### 8.Review floorplan layout in Magic
+#### In the above image we can see the layout is not at the center, so to fit in the center-->full screen the window-->Press s-->press v. Then the layout will fir in the window.
+#### To zoom in first left click on mouse, then right click and press z,
+#### Similarly to zoom out press shift + z.
+![image](https://github.com/user-attachments/assets/7f800ad9-5527-4a71-9a7a-4d0e30796904)
+
+
+
+
+
 
 
 
