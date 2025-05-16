@@ -334,7 +334,23 @@ Similarly, we check for vertical pins we will get metal2 as mentioned in below i
 
 ## Library building and Placement
 ### 1. Netlist binding and initial place design
-####
+#### In Placement and Routing , the first step to bind the physical netlist.In reality the logic gates do not actually have the shape as in which they are shown instead they are represented as a box with certain width and height which is given during designing. So now each and every component of the netlist is now given a proper dimension.
+![image](https://github.com/user-attachments/assets/74c18e1c-aa12-4477-926d-1a87faae9f29)
+
+Now Removing the wires and placing the elements together. These things are present in shell called "Library." Library has the timing information, basically there are 2 types of libraries one tells about the delay and second tells about the shapes and size of the shell.</br>
+So, the library will have the delay of the particular shell, it's width and height, also it's particular information at which condition it will be operated.</br>
+Library provides various options about the size.Like in the second case, the gates are bigger in size-->less resistance path-->so faster. Similarly in third case it is even faster.</br>
+![image](https://github.com/user-attachments/assets/0d065fd6-ba54-4934-bd5b-910a3508a4e8)
+
+#### Now next comes the Placement of the desired netlist on the floorplan. So we have the floorplan, the netlist and the shape of components in netlist.
+![image](https://github.com/user-attachments/assets/88440514-109c-482a-8498-50fa89309b50)
+
+#### Considering the floorplan that we have along with preplaced cells, we will start placing the FFs by looking at the netlist. As in the netlist the FFs1 is near to Din1 and FF2 is at Dout1 so we will place accordingly.They are placed closed to each other to avoid timing delay.
+![image](https://github.com/user-attachments/assets/962c3ebe-0e3f-42c2-9c1c-4681abbc8762)
+
+
+
+
 
 
 
