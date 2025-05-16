@@ -281,6 +281,21 @@ Now let's see how will bw the pin placement.We need to place the logic circuit b
 ![image](https://github.com/user-attachments/assets/7e8c4491-53de-44e4-b5f2-fd94726516db)
 
 ### 6. Steps to run floorplan using OpenLANE
+#### We will doing the floorplanning in openlane. For Floorplanning we require some switches which we will get in 'configuration' file in openlane.
+#### Inside the configuration there is a README file--> enter into that.
+![image](https://github.com/user-attachments/assets/4255e319-ee14-4af3-af47-7b18f54bc2fc)
+Here you will see the variables required for each stage, such as global variable with design name, synthesis variables and so on.</br>
+Different switches are given under floorplanning as shown.</br>
+![image](https://github.com/user-attachments/assets/3ca286f2-8b02-4126-805c-113ff8461340)
+
+Now we need to set the switches, for that go back to the README file, in the floorplan.tcl directory we will see the default switches which are being set already,
+We can see (FP_IO_MODE):1 means that the i/o pins is positioned randomly but at equidistant, for 0 means not positioned equidistant.</br>
+![image](https://github.com/user-attachments/assets/18bb6493-894b-43ca-8755-585617702055)
+
+Now we have seen earlier that in the openlane the lowest priority is given to system default(floorplane.tcl) then config.tcl and the highest priority is given to PDK variant.tcl(sky130A_sky130_fd_sc_hd_congig.tcl).</br>
+#### We will now run the floorplan by giving command: run_floorplan.
+
+
 
 
 
