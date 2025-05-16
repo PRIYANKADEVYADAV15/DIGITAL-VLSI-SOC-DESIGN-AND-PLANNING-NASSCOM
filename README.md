@@ -232,6 +232,52 @@ These cells are placed in such a way that, the placement and routing tool do not
 ### 3.De-Coupling Capacitors
 #### Earlier we discussed about the locations of the pre-placed cells, that is it needs to be fixed and fill not change in the further processes also.
 #### After this THE PREPLACED CELLS WILL BE SURROUNDED BY DECOUPLING CAPACITORS. Now, what are decoupling capacitors and why do we need them..?
+Consider a piece of circuit as shown below. Whenever this circuit switches, e.g: AND gate switches from logic 0 to Logic 1 there is a demand of current. For this a small capacitor is placed so whenever transition from 0-->1 the capacitor charges to show 1. It is the responsibility of applied voltage(Vdd) to supply current to all the logics. Similarly when logic switches from 1-->0 the capacitor discharges to 0, for this Vss is responsible. But every physical wire has some equivalent resistance, inductance and capacitance of it's own, which leads to drop in the supply voltage.</br>
+![image](https://github.com/user-attachments/assets/57dabe53-1d04-4d5b-9a9b-bf56d8a97619)
+
+So if the supply voltage is suppose 1V then due to resistances of wire due to voltage drop the voltage reached is 0.8 or 0.7V (Vdd').</br>
+The capacitor will now charge till 0.7V only. Now if the 0.7V lies between the high and low margin region, then it will be a problem as it can switch to 0 or 1 irrespective of the requirement.</br>
+This is the problem of having a large distance between the main power supply and the physical circuit.</br>
+![image](https://github.com/user-attachments/assets/cc398306-fa7d-472f-ae8b-b4066a783118)
+
+#### This problem can be solved using De-coupling capacitors, De-coupling capacitors are large capacitors which are charged till the applied voltage. They are placed very close to the main circuit so that there is hardly any voltage drop. The capacitor acts as a shock absorber for the chip's power supply. It smooths out sudden jolts in voltage just like a damper absorbs mechanical shocks. So, as the name suggests it decouples from the main circuit.
+![image](https://github.com/user-attachments/assets/dcd4a4b0-7f8f-458b-ac65-6ff79e634034)
+
+#### Below image shows how the main circuit blocks are surrounded by the decoupled capacitors. This ensures that there is proper switching and no cross-talk.
+![image](https://github.com/user-attachments/assets/14b2d67c-4c49-4fe2-bb06-c292f41d51fc)
+
+### 4.Power Planning
+#### Now we have taken care of local communication, but what about the global communication..?
+Let us suppose there are multiple macros, and we have connected the decoupling capacitor to all the macros individually. There is a driver connected to load.</br>
+![image](https://github.com/user-attachments/assets/9d5eff89-8bb5-4474-88a0-74e2cc304f79)
+
+The macros are connected to the main power supply(Vdd). As in the diagram we can see the driver and load are connected with a 'red' wire. We want the logic operation going on in driver to be transmitted to load. But here also there will be voltage drop due to wire's resistance. Furthermore, we can't connect decoupling capacitors here as it is not feasible to connect the decouple capacitors everywhere.</br>
+![image](https://github.com/user-attachments/assets/ab3865cd-a52c-4bb6-80df-dfa176be1d4c)
+Let the 'red' wire represents a 16 bit bus, suppose we are giving a 16 bit signal, where for 1 the capacitors have to be fully charged till V, and for 0 the capacitors have to be discharged. Now, if we connect an inverter at the load, the 1 has to turn to 0, that means Capacitors voltage needs to be discharged to ground simultaneously. Due to discharge at single 'Ground' tap point, there will be a bump at the Ground called as 'Ground Bounce'. Which will lie in between the noise margin levels causing the disrupt in the output values.</br>
+![image](https://github.com/user-attachments/assets/d53b3cb2-f285-4024-900e-04c6927990a7)
+![image](https://github.com/user-attachments/assets/3672ec0e-529e-4743-a6d5-4e84c2665d26)
+Now, when the capacitors are charging from 0 to 1 so they are demanding current supply at the same time, this will create a 'Voltage Droop'.</br>
+![image](https://github.com/user-attachments/assets/20a8438e-06b7-471a-90fd-6aa32c02e4a6)
+
+#### These problems occur only because there is only one power supply, if there would have been multiple power supplies then this wouldn't happen. For example as shown below.Therefore, while designing chips we give multiple power supplies. So that any logic will take it's power from it's nearest power supply and dump it's current to it's nearest ground.
+![image](https://github.com/user-attachments/assets/5cc3849b-58b5-4c7c-bd03-e667dafef616)
+#### This is how we do Power Planning by giving horizontal and vertical lines and the interconnects are the contacts.
+![image](https://github.com/user-attachments/assets/0b31b8aa-d170-4b77-9516-9ec0f66a0a62)
+
+### 5.Pin Placement and logic cell Placement blockage
+#### 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
