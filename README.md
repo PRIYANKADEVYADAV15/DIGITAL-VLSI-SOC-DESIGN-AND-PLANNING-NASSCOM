@@ -311,13 +311,30 @@ After opening the file we will get various parameters, the diarea which is given
 
 #### To see the actual Floorplan, let us first open Magic by writing the command 'magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def'
 We will see the layout in magic</br>
+![image](https://github.com/user-attachments/assets/dc261fb9-d323-4d18-8995-dd1de0304790)
 ![image](https://github.com/user-attachments/assets/f9dbe342-18e8-4ea4-b7c7-fad7c1b2151d)
 
 ### 8.Review floorplan layout in Magic
 #### In the above image we can see the layout is not at the center, so to fit in the center-->full screen the window-->Press s-->press v. Then the layout will fir in the window.
 #### To zoom in first left click on mouse, then right click and press z,
 #### Similarly to zoom out press shift + z.
+Also as we have selected IO_mode=1 that means I/O pins are placed equidistant with each other.</br>
+To select any pin just hover the mouse over that element and press s on keyboard.
 ![image](https://github.com/user-attachments/assets/de28d5eb-f1b2-4361-a45e-fb40fe4a619a)
+
+After selecting any pin, there is one more window tkcon, where we can get the information of the selected pin. Just type 'what' in that window.You will see metal3 which means horizontal.</br>
+![image](https://github.com/user-attachments/assets/2dbe3b58-8ef8-4eaf-810b-a0dd26f420d8)
+
+Similarly, we check for vertical pins we will get metal2 as mentioned in below image.</br>
+![image](https://github.com/user-attachments/assets/042a55bf-2bf6-46de-b559-8256ecd80f93)
+#### Along with this we can also see the Decaps(decoupled capacitor) arranged along the border or side rows.Then we have tap cells, which are used to avoid latch-up conditions in CMOS devices, they connect n-well to VDD and substrate to GND.
+![image](https://github.com/user-attachments/assets/d0af6c3e-8a04-42da-85c0-bb89c8370a9d)
+#### We also have the standard cell at the lower left corner which represents the AND, OR,etc logic gates.
+![image](https://github.com/user-attachments/assets/272caf5f-dd25-43e9-b337-9cd2eb8ae25f)
+
+
+
+
 
 
 
