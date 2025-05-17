@@ -420,6 +420,18 @@ Next step is the Layout design.</br>
 
 ### 4.Layout Design
 #### The first we already discussed that is implementation of the given function, the second step to derive the pmos and nmos network graphs. This is done by 'Art of Layout-Euler's path and stick diagram'. It will give the best layout and best performance.
+After we are done with the network graphs, we get the Euler's path. **Euler's path** is the path which is being traced only once. Based on Euler's path we draw a stick diagram out of it.
+![image](https://github.com/user-attachments/assets/08e57318-9171-4fa6-8576-bd6e4a15261c)
+![image](https://github.com/user-attachments/assets/241f0a49-1057-4d21-b087-204858ef441d)
+Next Step is to convert the stick diagram into a proper layout adhering to the DRC rules. We can implement it in magic.(as shown below)</br>
+![image](https://github.com/user-attachments/assets/1e9253b3-c1b9-4e49-8bb3-5836f40f0f13)
+The next step and the final step will be to extract the parasitics(resistances and capacitance) from the layout and charcaterise in terms of timing.The layout desing will be saved in the output in the form of GDSII, LEF, and extracted spice netlist</br>
+Next step is very important that is Characterisation and we will get the output in the form of timing, noise and power information.</br>
+
+### 4.Typical Characterisation flow
+
+
+
 
 
 
