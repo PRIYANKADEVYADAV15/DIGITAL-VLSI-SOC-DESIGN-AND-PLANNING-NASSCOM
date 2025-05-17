@@ -346,7 +346,96 @@ Library provides various options about the size.Like in the second case, the gat
 ![image](https://github.com/user-attachments/assets/88440514-109c-482a-8498-50fa89309b50)
 
 #### Considering the floorplan that we have along with preplaced cells, we will start placing the FFs by looking at the netlist. As in the netlist the FFs1 is near to Din1 and FF2 is at Dout1 so we will place accordingly.They are placed closed to each other to avoid timing delay.
+Also, the stage 2 of logic, you can see that all the FFs and gates are placed together.</br>
 ![image](https://github.com/user-attachments/assets/962c3ebe-0e3f-42c2-9c1c-4681abbc8762)
+Now, in the netlist we can see that FF1 is close to Din2 and FF2 is close to Dout3, the distance is quite large.They are arranged diagonally.</br>
+Similarly, in the next stage the FF1 is at Din4 and FF2 is at Dout4, but there is preplaced cells that cannot be moved, so it will be arranged as shown in the image below.</br>
+![image](https://github.com/user-attachments/assets/b23a1bee-89fe-4d4a-9ed8-e25f0509ac77)
+But we need to solve this problem by Optimizing the placement.
+
+### 2. Optimize placement using estimated wire-length and capacitance
+#### This is the stage where we estimate wire length and capacitances and based on that we insert repeaters. Like at Din2 to Dout3  we try to estimate the wire length and then the equivalent capacitance. As the distance is very high, the resistance and capacitance will be very high, due to which there will be loss of signals. To avoid this we place repeaters and buffers at the intermediate distances to maintain 'signal integrity'. But there will be loss of area due to so many buffers and repeaters, anyhow we need to still live with it.
+In stage 1 the FFs are near so there is no need to place repeaters.(as shown below)</br>
+![image](https://github.com/user-attachments/assets/31e06c8b-94e6-4e3c-8b94-a6c1c07eff63)
+In stage 2 the FF1 is far from Din2 so we need buffers/repeaters in between to maintain the signal integrity. So we place 2 buffers in between.(as shown below)</br>
+![image](https://github.com/user-attachments/assets/43b5d19b-9f90-4df4-aef3-5686331998e0)
+
+### 3.Final placement optimization
+#### In stage 2 you can see that there no space between the FFs and Logic gates, this is called 'Abetment in placement optimization', this is done when a particular circuit has to run very fast(high frequency application) so there should'nt be any wire placement in between to avoid delay.
+
+Similarly in stage 3 we need to place a buffer between logic gate 2 and FF2 as the distance appeared is high.</br>
+![image](https://github.com/user-attachments/assets/2d2475b3-85d0-4992-bed0-2d99ea17018d)
+
+Coming to the last stage i.e 4th stage, it is the trickiest one, we placed 2 buffers in between, and also there is a criss-cross with other connections in between. So we need to deal with that also further.</br>
+![image](https://github.com/user-attachments/assets/60e86193-d89b-4922-a405-b75401f0af34)
+
+#### Now we will try to do the Setip Timing Ananlysis, considering the clocks to be ideal that means giving clock to all the FFs at the same time.
+
+### 4.Need for libraries and characterization
+#### We have come across the steps for designing i.e. Logic Synthesis, Floorplanning, Placement... and the last step STA(Static Timing Analysis). To reach there we need to accomplish a very important step i.e. CLOCK TREE SYNTHESIS(CTS).
+For 0 skew, FFs everywhere should receive the signal at the same time. Clock Buffers will make sure that the signal received is at the same time. This is where Lbraries come into picture.</br>
+Also one common thing in all the stages is Gates/Cells(AND, OR, BUFFER, INVERTERS...).Here Library Characterisation is very important where there is collection of gates/cells. We need this because tools should understand what a specific gate is-->For what we need to model the gate in specific way to make the EDA tool understand the logics of gates.
+
+### 5.Congestion aware placement using RePlAce
+#### At present we are more interested in ensuring that the congestion free placement, later we will consider the timing analysis.
+We have earlier seen that placement occurs in two stages- global placement--> detailed placement</br>
+In Global Placement legalization does not happens, it happens in Detailed Placement. Legalization means the standard cells are placed in standard cell rows, they have to be exactly inside and abeted(closely packed) with each other. Also no overlapping, Legalization involves timing.</br>
+So while we do run_placement in openlane-->1st global placement happens-->the main objective of this is to reduce wire length and in openlane we use concept og HPWL(Half parameter wire length).Also, Our main motive is to converge the overflow, if it does then the placement is done.</br>
+To physically check if placement is done, go into results folder and check fro placment, a placement.def file will be created.Open the file in magic using the same tech file as used earlier</br>
+![image](https://github.com/user-attachments/assets/caeb49a9-5bd0-4b8a-b32e-bd2fad2a9d04)
+
+We see the standard cells which were actually at the bottom left corner of the floorplan are now placed in the standard cells of rows.
+![image](https://github.com/user-attachments/assets/17b85da2-d657-4498-94b8-f75a629dc0a0)
+
+## Cell design and characterization flows
+### 1. Inputs for cell design flow
+#### What are standard cells in typical IC design flow?
+Standard cells are pre-designed and pre-characterized logic gates and other fundamental building blocks used in the physical design of integrated circuits (ICs). They form the foundation of digital IC design</br>
+Standard cells are: Logic gates (e.g., AND, OR, NOT),Flip-flops, latches,Buffers, inverters, multiplexers, and Special cells (e.g., tie-high/low, filler cells)</br>
+![image](https://github.com/user-attachments/assets/ac37e946-1591-4db6-938b-8b3b52babd8b)
+These standard cells are placed in Libraries. A library has got cells with different functionality, and different sizes. Also cells with different threshold voltage(Vt).
+![image](https://github.com/user-attachments/assets/f74fe2f9-38c5-4a68-9f22-705bff6c2a02)
+Let's take one particular inverter-->see the cell design flow, this inverter should be understood by a particular EDA tools.It has to be represented in form of shape, size and various cell design flow.</br>
+**Cell design flow is divided into 3 parts:**
+a)Inputs</br>
+b)Design steps</br>
+c)Outputs</br>
+![image](https://github.com/user-attachments/assets/100d9c77-dc25-426f-8162-2d8c2c50e89f)
+![image](https://github.com/user-attachments/assets/0863ccf8-c7eb-4227-8ecf-b1130242a596)
+![image](https://github.com/user-attachments/assets/b905a337-2be2-4ec1-92c3-6e4292c356b7)
+
+### 2.Circuit design steps
+Consider an example of 'Library' in inputs-->the separation between power rail and ground rail decides the cell height. It is the responsibility of cell library that the cell height is maintained. If 'Drive strength' of a particular cell is high, it will be able to drive even longer wires.</br>
+![image](https://github.com/user-attachments/assets/92f6205d-216d-4d71-ab47-c7329baf8924)
+Let's take an example of 'User defined specifications'--> The top level of the cell decides at what level the chip will operate and the library developer has to decide the supply voltage. The library also has to decide the Metal layer and Pin Locations.</br>
+ **Design steps** - Now coming on to the design steps after defining the inputs in the library, we need to design in such a way which adheres to the inputs.</br>
+ Design involves three steps-</br>
+ i)Circuit design</br>
+ ii)Layout design</br>
+ iii)Characterisation</br>
+
+ #### In circuit design step we need to follow two steps, first is to implement the circuit and second is to model the PMOS and NMOS transistor in order to meet the library requiremenents. The output we get from circuit design is called CDL(Circuit Description Language)
+ ![image](https://github.com/user-attachments/assets/d7832a90-32da-4d7d-ac39-d3610e5ed537)
+Next step is the Layout design.</br>
+
+### 4.Layout Design
+#### The first we already discussed that is implementation of the given function, the second step to derive the pmos and nmos network graphs. This is done by 'Art of Layout-Euler's path and stick diagram'. It will give the best layout and best performance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
