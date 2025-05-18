@@ -502,6 +502,31 @@ So here comes the slew rate i.e. high-low for input and output characteristics.<
 Open the floorplan that we got, we have put earlier FP_IO_MODE 1, so we got equidistant input output pins, now let's change the configuration and see what happens.</br>
 Inside floorplan.tcl we have env(FP_IO_MODE) 1, now write in openlane as set 2 as shown below. **And do the run_floorplan again**.</br>
 ![image](https://github.com/user-attachments/assets/2439a713-a453-4883-9356-7f864ce80ce4)
+We observe that now all the pins are stacked together in the lower half and no pin in the upper half.
+![image](https://github.com/user-attachments/assets/9f9e2d23-0cc5-44c5-bdd2-9444d030fbb8)
+
+### 2.SPICE deck creation for CMOS inverter
+Now we will be doing some SPICE simulations and deriving the real time mosfets.</br>
+1st step is **SPICE deck**, it is the *connectivity information* about the netlist. It has got the inputs provided for simulation, tap points at which we'll take the outputs and so on. So we will create the SPICE deck for complete netlist with pmos and nmos.In this case we looking at the 'static behaviour' of the cmos.Next, we will define the *component value*, where the pmos and nmos are given W/L values, and output capacitance load value.(Although we know pmos should be wider than nmos, but here we will take the same values for both). </br>
+![image](https://github.com/user-attachments/assets/e382a5e4-519d-40e8-8c00-66c6354a1425)
+
+Next step is to give the input values.Usually the voltage kept is in multiples of channel length.Also assume the draain voltage.
+![image](https://github.com/user-attachments/assets/22986514-3101-4346-a8c6-63d899bb561f)
+
+Next step is to *Identify the Nodes*, when between two points there is a component then that is specified as a node.</br>
+![image](https://github.com/user-attachments/assets/3eb87fa1-cabf-44be-ab4e-2a5380514745)
+Let's *name the nodes*.</br>
+![image](https://github.com/user-attachments/assets/701baa5b-0b67-40f7-b9fa-987648ec00a3)
+
+We will start writing the SPICE deck code.</br>
+Stars define the ***commands***, The syntax will be Drain-Gate-Source-Substrate</br>
+![image](https://github.com/user-attachments/assets/ad3a3fc4-8ad9-472b-82d6-323353796080)
+
+
+
+
+
+
 
 
 
