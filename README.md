@@ -476,6 +476,41 @@ Now the other definitions include input waveforms,taking the input stimulus and 
 **out_fall_thr**
 ![image](https://github.com/user-attachments/assets/c0cf64e8-87a0-4e0b-96e3-7f332859cd85)
 
+### 2. Propagation delay and transition time
+We have in&out_rise_thr and in&out_fall_thr. So if we want to calculate delay--> time(out_*_thr)-time(in_*_thr)</br>
+![image](https://github.com/user-attachments/assets/62986c2b-2986-4336-a955-b34355feac0f)
+Lte's take an example, here the Red curve is input waveform and blue curve is output waveform taken from 2nd inverter.
+![image](https://github.com/user-attachments/assets/f65564f5-c994-4d34-95d3-293804641c39)
+
+Next if we shift the threshold points above 50%, then we will see that there is a negative delay sha shown below. A negative delay means output arrived befor the input, so it is not good. Therefore choosing a proper threshold point is very very important.</br>
+![image](https://github.com/user-attachments/assets/d827a8ba-d1dd-45c7-9869-3b7fcdc1d5c1)
+
+Another example of negative delay is given below, here the input slew is too high due to long wires.</br>
+![image](https://github.com/user-attachments/assets/2cccbd7c-0f40-450d-a0e3-3613206835e1)
+We can see that in_rise_thr point is much higher than out_fall_thr point which results ina negative delay.</br>
+![image](https://github.com/user-attachments/assets/83e2121a-cf39-4563-add6-5d415152526a)
+
+Next we will understand the transition time which is given by--> time(slew_high_rise_thr)-time(slew_low_rise_thr), similarly for the fall-->time(slew_high_fall_thr)-time(slew_low_fall_thr)</br>
+Let's consider 20% of VDD as low value and 80% of VDD as high value</br> 
+So here comes the slew rate i.e. high-low for input and output characteristics.</br>
+![image](https://github.com/user-attachments/assets/b93723e5-4624-4d86-9bc1-592b17628047)
+
+# SKy130 Day 3 - Design library cell using Magic Layout and ngspice characterization
+## Labs for CMOS inverter ngspice simulations
+### 1.IO placer revision
+#### As we have taken the example of an inverter, we will be designing the cell. We'll load the magic file into the picorv32a.Till now we have already done with the floorplan, now also we can change the core utilisation factor.
+Open the floorplan that we got, we have put earlier FP_IO_MODE 1, so we got equidistant input output pins, now let's change the configuration and see what happens.</br>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
