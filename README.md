@@ -309,7 +309,7 @@ After opening the file we will get various parameters, the diarea which is given
 **Width= 660.685 microns, Height=671.045 microns**
 ![image](https://github.com/user-attachments/assets/9b852944-2da2-4ab3-ac77-d20de8ab2a79)
 
-#### To see the actual Floorplan, let us first open Magic by writing the command 'magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def'
+#### To see the actual Floorplan, let us first open Magic by writing the command `magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def`
 We will see the layout in magic</br>
 ![image](https://github.com/user-attachments/assets/dc261fb9-d323-4d18-8995-dd1de0304790)
 ![image](https://github.com/user-attachments/assets/f9dbe342-18e8-4ea4-b7c7-fad7c1b2151d)
