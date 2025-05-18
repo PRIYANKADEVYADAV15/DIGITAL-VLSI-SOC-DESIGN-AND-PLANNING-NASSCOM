@@ -462,6 +462,26 @@ Waveform of output of 1st inverter is given as input to 2nd inverter.</br>
 **slew_high_fall_thr**
 ![image](https://github.com/user-attachments/assets/c16f693a-5310-4c07-a5da-5bac2b3d8dfe)
 
+Now the other definitions include input waveforms,taking the input stimulus and the output of the first buffer.
+
+**in_rise_thr** It tell the delay from the given input, to measure the arrival time of a rising signal at the input pin of a standard cell.It is taken when the input crosses 50% of the signal.
+![image](https://github.com/user-attachments/assets/59213ea0-727e-41d1-87f9-64935032e6dc)
+
+**out_rise_thr** Just like input rise, output rise threshold is also 50% of the output waveform.</br>
+![image](https://github.com/user-attachments/assets/e753cb31-3859-47de-b53f-f6c993418a1b)
+
+**in_fall_thr**
+![image](https://github.com/user-attachments/assets/8051be12-6da9-4a8f-a875-1a4835f33880)
+
+**out_fall_thr**
+![image](https://github.com/user-attachments/assets/c0cf64e8-87a0-4e0b-96e3-7f332859cd85)
+
+
+
+
+
+
+
 
 
 
