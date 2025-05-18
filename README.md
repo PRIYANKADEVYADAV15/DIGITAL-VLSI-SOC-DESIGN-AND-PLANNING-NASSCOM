@@ -420,7 +420,7 @@ Next step is the Layout design.</br>
 
 ### 4.Layout Design
 #### The first we already discussed that is implementation of the given function, the second step to derive the pmos and nmos network graphs. This is done by 'Art of Layout-Euler's path and stick diagram'. It will give the best layout and best performance.
-After we are done with the network graphs, we get the Euler's path. **Euler's path** is the path which is being traced only once. Based on Euler's path we draw a stick diagram out of it.
+After we are done with the network graphs, we get the Euler's path. **Euler's path** is the path which is being traced only once. Based on Euler's path we draw a stick diagram out of it.</br>
 ![image](https://github.com/user-attachments/assets/08e57318-9171-4fa6-8576-bd6e4a15261c)
 ![image](https://github.com/user-attachments/assets/241f0a49-1057-4d21-b087-204858ef441d)
 Next Step is to convert the stick diagram into a proper layout adhering to the DRC rules. We can implement it in magic.(as shown below)</br>
@@ -429,6 +429,50 @@ The next step and the final step will be to extract the parasitics(resistances a
 Next step is very important that is Characterisation and we will get the output in the form of timing, noise and power information.</br>
 
 ### 4.Typical Characterisation flow
+#### Let us try to built in characterisation flow from the inputs we have, there are certain steps we need to follow:
+i)   Reading the model files</br>
+ii)  Read the Extacted SPICE netlist</br>
+iii) Recognizethe behaviour of buffer</br>
+iv)  Read the sub-circuit of inverter</br>
+v)   Attach the power sources</br>
+vi)  Apply the stimulus given to the characterisation step</br>
+vii) Provide the necessary output capacitors</br>
+viii)Provide the necessary simulation command i.e. For transition simulation-->.tran and for DC simulation-->.dc</br>
+
+![image](https://github.com/user-attachments/assets/2fb95e00-e0fe-469f-b47c-d5b7a5162cff)
+![image](https://github.com/user-attachments/assets/0e6b80c0-8dac-4ad4-88f4-1f4617ea6611)
+Next is to feed all these steps in characterisation software called GUNA.This software will generate timing,noise and power.libs outputs</br>
+![image](https://github.com/user-attachments/assets/b35b945a-c82c-4882-a016-3df862030470)
+
+## General timing characterization parameters
+### 1. Timing threshold definitions
+#### Here we will understand various syntex and symentix of timing.lib, power.lib and noise.lib. This is necessary to understand the GUNA software.
+We will try to understand the timing threshold definitions of waveform itself.</br>
+![image](https://github.com/user-attachments/assets/21857667-3857-47e6-8ae1-30d4dd9a1df7)
+Waveform of output of 1st inverter is given as input to 2nd inverter.</br>
+**slew_low_rise_thr** It is voltage level below which a rising signal is considered to have started it's transition. Or we can say that slew low rise threshold depicts the value close to 0.slew_low_rise_thr is typically 20% from bottom power supply.</br>
+![image](https://github.com/user-attachments/assets/8e60e7e6-e03d-426d-a808-26eb67de51d6)
+
+**slew_high_rise_thr** It is typically 20% from top power supply</br>
+![image](https://github.com/user-attachments/assets/0824e11f-a960-4ff5-b7d0-e3f9fcf3d6c5)
+
+**slew_low_fall_thr**
+![image](https://github.com/user-attachments/assets/12b65a3a-2790-491b-ac3b-1182239f7580)
+
+**slew_high_fall_thr**
+![image](https://github.com/user-attachments/assets/c16f693a-5310-4c07-a5da-5bac2b3d8dfe)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
