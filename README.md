@@ -500,6 +500,9 @@ So here comes the slew rate i.e. high-low for input and output characteristics.<
 ### 1.IO placer revision
 #### As we have taken the example of an inverter, we will be designing the cell. We'll load the magic file into the picorv32a.Till now we have already done with the floorplan, now also we can change the core utilisation factor.
 Open the floorplan that we got, we have put earlier FP_IO_MODE 1, so we got equidistant input output pins, now let's change the configuration and see what happens.</br>
+Inside floorplan.tcl we have env(FP_IO_MODE) 1, now write in openlane as set 2 as shown below. **And do the run_floorplan again**.</br>
+![image](https://github.com/user-attachments/assets/2439a713-a453-4883-9356-7f864ce80ce4)
+
 
 
 
