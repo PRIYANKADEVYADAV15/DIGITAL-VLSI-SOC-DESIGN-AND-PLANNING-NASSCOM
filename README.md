@@ -779,8 +779,9 @@ Also include the pmos and nmos files which are there in the libs folder. Use com
 
 Now make the definition for the supply voltage `VDD VPWR 0 3.3V` , `VSS VGND 0 0V`, and Input files `Va A VGND PULSE(0v 3.3V 0 0.1ns 2ns 4ns)`. Also add the command `.tran 1n 20n`, `.control` , `run`,`.endc`,`.end`.</br>
 Also add the model files of nmos and pmos.</br>
-![image](https://github.com/user-attachments/assets/1afb80da-33cf-4b0d-b83c-0efcbeb6724a)
 ![image](https://github.com/user-attachments/assets/93eeeb66-4382-4e78-a9cd-18b894c12735)
+
+Now our SPICE deck is ready, run `ngspice sky130_inv.spice`.
 
 
 
