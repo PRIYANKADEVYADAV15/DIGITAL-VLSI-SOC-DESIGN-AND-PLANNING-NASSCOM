@@ -750,6 +750,48 @@ Also in CMOS the source of PMOS is connected to VDD and source of NMOS is connec
 
 ### 9.Lab steps to create std cell layout and extract spice netlist
 The CMOS inverter we see is being taken from the repository <a href="https://github.com/nickson-jose/vsdstdcelldesign">https://github.com/nickson-jose/vsdstdcelldesign</a>
+Also, we need to ensure the final design needs to be DRC(design rule check) clean.</br>
+How to know the logical involved in formation of inverter? FOr that we will extract SPICE and do SPICE simulations in ngspice.</br>
+For this we will go to tkcon, and see where we are by `pwd`, then we will type `extract all`.</br>
+![image](https://github.com/user-attachments/assets/aa20ea2a-65b7-4c8a-86fe-ae251bc3a681)
+
+We will see if that has been extracted. So `sky130A_inv_ext` is present</br>
+![image](https://github.com/user-attachments/assets/241f4757-8eaa-4de3-b7e2-aa710bd57569)
+
+Next we will use this `.ext` file to create our SPICE file which will be used in ngspice tool.In tkcon we will write the command `ext2spice cthresh 0 rthresh 0`, this will extract the parasitic capacitances and resistances, then we will write `ext2spice` and enter.</br>
+![image](https://github.com/user-attachments/assets/b1f1853f-66f8-4f69-bbaa-c0e668c36905)
+
+After we will see that spice file has been created.</br>
+![image](https://github.com/user-attachments/assets/8c96490c-a992-46aa-9fe8-f9e35e2b9661)
+
+We will now check what's there inside the spice file.</br>
+![image](https://github.com/user-attachments/assets/784f818e-ad7f-453e-b3ed-c13603935350)
+
+## Sky130 Tech File Labs
+### 1.Lab steps to create final SPICE deck using Sky130 tech
+#### Let us try to read the spice deck.</br>
+![image](https://github.com/user-attachments/assets/fa0e7a72-0c28-4c5d-affa-8d427a9c244a)
+
+We need to take the dimensions as the dimension of grid in spice model that we have extracted. SO we will edit the values in SPICE deck according to what mentioned</br>
+![image](https://github.com/user-attachments/assets/a62fa8ed-83de-4f5c-a469-9f497edc5e79)
+Also include the pmos and nmos files which are there in the libs folder. Use command `.include ./libs/pshort.lib` for PMOS and `.include ./libs/nshort.lib` command for NMOS.</br>
+![image](https://github.com/user-attachments/assets/c695afcf-234f-4349-9a75-3e341dad7647)
+
+Now make the definition for the supply voltage `VDD VPWR 0 3.3V` , `VSS VGND 0 0V`, and Input files `Va A VGND PULSE(0v 3.3V 0 0.1ns 2ns 4ns)`. Also add the command `.tran 1n 20n`, `.control` , `run`,`.endc`,`.end`.</br>
+Also add the model files of nmos and pmos.</br>
+![image](https://github.com/user-attachments/assets/1afb80da-33cf-4b0d-b83c-0efcbeb6724a)
+![image](https://github.com/user-attachments/assets/93eeeb66-4382-4e78-a9cd-18b894c12735)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
