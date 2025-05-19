@@ -730,6 +730,33 @@ Finally, we will use Mask16 to drill out the final contacts outside.</br>
 ![image](https://github.com/user-attachments/assets/2a00a984-9319-4e4f-8305-06cf85d25078)
 
 ### 8.Lab introduction to Sky130 basic layers layout and LEF using inverter
+The layers which we see here are required for basic CMOS inverter.The above one is PMOS and below is NMOS, Red line is Polysilicon.</br>
+On the riight side we see color palatte which shows the layers.</br>
+In skywater130A the first layer is local interconnect layer which is shown by light blue colour, the purple colour is Metal 1, pink color is Metal 2, n well is shown by solid slanting dashed lines
+![image](https://github.com/user-attachments/assets/845516c4-7292-4734-8bf2-4bb5867d91cf)
+
+We know when a poly crosses n-diffusion it's an NMOS and similarly when a ploy crosses p-diffusion it's a PMOS.</br>
+We can check this if it holds true or not by selecting that part and type 'what' on tkcon.</br>
+![image](https://github.com/user-attachments/assets/22c007b7-e923-415b-89b6-084268542079)
+Similarly we can do for PMOS as well.</br>
+
+Now to check if the PMOS drain is connected to NMOS drain, in magic press s three times after placing the cursor over drain.</br>
+![image](https://github.com/user-attachments/assets/d00ed81c-9d5a-445c-a8bb-e9b95b48c75a)
+
+Also in CMOS the source of PMOS is connected to VDD and source of NMOS is connected to GND.</br>
+![image](https://github.com/user-attachments/assets/31508655-a747-4706-a1fc-c9a1c1874dda)
+
+![image](https://github.com/user-attachments/assets/46a73564-b1d5-4137-810a-0b7515e45352)
+
+### 9.Lab steps to create std cell layout and extract spice netlist
+The CMOS inverter we see is being taken from the repository <a href="https://github.com/nickson-jose/vsdstdcelldesign">https://github.com/nickson-jose/vsdstdcelldesign</a>
+
+
+
+
+
+
+
 
 
 
