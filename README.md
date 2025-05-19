@@ -522,6 +522,37 @@ We will start writing the SPICE deck code.</br>
 Stars define the ***commands***, The syntax will be Drain-Gate-Source-Substrate</br>
 ![image](https://github.com/user-attachments/assets/ad3a3fc4-8ad9-472b-82d6-323353796080)
 
+### 3.SPICE simulation lab for CMOS inverter
+#### Now we will into the other components, taking the output capacitance. cload is connected between out and 0 and it's value 10fF.
+![image](https://github.com/user-attachments/assets/9486fce5-cf99-4cde-84e3-3eab33682d52)
+
+Similarly the supply voltage VDD connected between Vdd and 0.<br>
+![image](https://github.com/user-attachments/assets/4fab48d8-874a-496f-9b5d-4cfb037adc74)
+SImilarly the Vin connected between in and 0.<br>
+
+#### Now we will write the simulation commands. 
+Given command means sweep the input voltage from 0 to 2.5 at steps of 0.05. reason of doing this , we need to calculate the voltage at the output while we sweep the input this will give the *Transfer Characteristics*.</br>
+![image](https://github.com/user-attachments/assets/27679ff2-8317-41ab-b2a7-6a82e4d0f9b4)
+Final step is to 'Describe the Model file', this is very important step.This has got the complete description of pmos and nmos transistors including all the technological paramters. From this file only it will take all the description.</br>
+![image](https://github.com/user-attachments/assets/e39338f7-1d81-497c-8ceb-28b709b6e212)
+
+We will now try to plot the waveform in the ngspice using the model file we have.</br>
+Here Wn,p=0.375microns, Ln,p=0.25microns; Wn/Ln=Wp/Lp=1.5W</br>
+We get the required Transfer Characteristics.</br>
+![image](https://github.com/user-attachments/assets/5085a256-1620-41b6-93e6-33fefce46172)
+
+Next keeping the Wn=0.375 microns, Wp=0.9375microns; Ln,p=0.25 microns; Wn/Ln=1.5, Wp/Lp=2.5.</br>
+![image](https://github.com/user-attachments/assets/a6f9deae-c064-412b-9b13-b500f7c7cc73)
+We can see in dc1 the waveform is a bit shifted left from it's center, whereas dc2 is accurate.
+
+### 4. Switching Threshold Vm
+
+
+
+
+
+
+
 
 
 
