@@ -541,11 +541,64 @@ Here Wn,p=0.375microns, Ln,p=0.25microns; Wn/Ln=Wp/Lp=1.5W</br>
 We get the required Transfer Characteristics.</br>
 ![image](https://github.com/user-attachments/assets/5085a256-1620-41b6-93e6-33fefce46172)
 
-Next keeping the Wn=0.375 microns, Wp=0.9375microns; Ln,p=0.25 microns; Wn/Ln=1.5, Wp/Lp=2.5.</br>
+Next keeping the Wn=0.375 microns, Wp=0.9375microns; Ln,p=0.25 microns; Wn/Ln=1.5, Wp/Lp=3.75.</br>
 ![image](https://github.com/user-attachments/assets/a6f9deae-c064-412b-9b13-b500f7c7cc73)
 We can see in dc1 the waveform is a bit shifted left from it's center, whereas dc2 is accurate.
 
 ### 4. Switching Threshold Vm
+#### Previously. in the first case we took Wn/Ln=Wp/Lp=1.5, whereas in second case we took Wp/Lp > Wn/Ln. Clearly we saw waveform shift in the second case. Both have different applications.
+Even though we changed the width/length ratio we saw the graphs is same in both the cases, this shows that CMOS Inverter is a robust device.The behaviour of the inverter remains same despite of the changes.</br>
+We will do the Static behaviour Evaluation showing the robustness of the CMOS Inverter. The parameters which define the same are;</br>
+![image](https://github.com/user-attachments/assets/ad50a822-acaf-463c-ba6b-177d154b03ee)
+
+1) **Switching Threshold, Vm**- It is a point where Vin=Vout, we will draw a tangent and see at what point Vin=Vout. This will give Vm. Also Vm is the point when both PMOS and NMOS are ON(Saturation Region). In this region there is a leakage current which flows from Vdd to ground.</br>
+ Given below we got the Vm in both the cases.</br>
+   ![image](https://github.com/user-attachments/assets/050271a5-e07f-40ff-bc75-07c18dbb2b13)
+At this point *Vgs=Vd*s, that means *Vgs>>Vt*, also the current which flows from PMOS and NMOS are same It's just that the direction of current are different.
+![image](https://github.com/user-attachments/assets/009d1106-5f6f-4500-b260-96bde5dbf8b9)
+
+### 5.Static and dynamic simulation of CMOS inverter
+Now we will try to prove the robustness of CMOS Inverter with different W/L ratios in SPICE simulator and calculating the Vm.</br>
+![image](https://github.com/user-attachments/assets/9f33e5f1-4139-43a6-8f37-43e2ac39c96a)
+
+Earlier we did the static simulation by command `.dc`, now we will be doing the dynamic simulation by writing the command `.tran` and the input provided will be a pulse.</br>
+![image](https://github.com/user-attachments/assets/4eff5692-42c8-48f3-84eb-7f94f11dec80) ![image](https://github.com/user-attachments/assets/2038aebe-f299-447c-82cc-fe376da06415)
+![image](https://github.com/user-attachments/assets/913620b8-1e90-4036-859e-8c95f88f06f5)
+We will calculate the rise delay and fall delay from the graph we obtained.</br>
+So at Wp/Lp=Wn/Ln, we got the rise and fall delay as shown below, with switching threshold Vm=0.99V</br>
+![image](https://github.com/user-attachments/assets/5c04d9e5-3280-4e80-804a-901f9d18e18b)
+
+### 6. Lab steps to git clone vsdstdcelldesign
+We can the git clone the repository where there is skywater SPICE modulation files for NMOS and PMOS.</br>
+To get the git clone, first go to the github page, copy the url under code and paste the url under the openlane directory using the command `git clone`.</br>
+This will create a folder called **vsdstdcelldesign** inside the openlane directory.</br>
+![image](https://github.com/user-attachments/assets/c23acdb2-22d9-4457-9413-d475f04a3783)
+
+Now we will be extracting the CMOS Inverter and doing the SPICE simulations.</br>
+First we will copy the sky130A.tech file inside the new folder created usinf the command `cp`.</br>
+![image](https://github.com/user-attachments/assets/3592779d-9195-49aa-916b-58e45303eba1)
+![image](https://github.com/user-attachments/assets/baa442ad-b1cc-4876-83f6-81cf55565b98)
+You can see that is has been copied.</br>
+![image](https://github.com/user-attachments/assets/671bb5bf-6d66-4cd3-96a6-9465d6b3163f)
+We will now see the layout in magic. Also don't need to write the whole code as we have copied the tech file inside the present working directory</br>
+Also '&' after writing the command is used to free the magic for next prompt.</br>
+We have got the layout of the inverters below.</br>
+![image](https://github.com/user-attachments/assets/86dbe57e-3b2d-4c0d-af6a-9608cb64050f)
+
+## Inception of layout ̂A CMOS fabrication process
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
