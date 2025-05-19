@@ -585,7 +585,45 @@ Also '&' after writing the command is used to free the magic for next prompt.</b
 We have got the layout of the inverters below.</br>
 ![image](https://github.com/user-attachments/assets/86dbe57e-3b2d-4c0d-af6a-9608cb64050f)
 
-## Inception of layout ̂A CMOS fabrication process
+## Inception of layout ̂ÃÂ CMOS fabrication process
+### 1. Create Active regions
+#### We will create a 16 mask CMOS process.
+1) **Selecting a substrate**- THe complete layout is laid onto a substrate,here we will select the most commonly used substrate i.e.a ptype Si substrate.</br>
+![image](https://github.com/user-attachments/assets/a0bdb010-bd73-479d-8068-641c0bae441d)
+2) **Create the active regions for transistors**- Active regions are the pockets where we will dope with n type.</br>
+ For this we need to create the isolation so that the pockets do not interact with each other, so we will grow a ~40nm SiO2 layer on the substrate.</br>
+ Next we will deposite a ~80nm layer of Si3N4 on top of SiO2.</br>
+ Now to make the active region pockets we will deposit the ~1micron layer of photoresist to create the masks.</br>
+ Where we want to create the wells there will put masks.</br>
+ And UV light drom the top.</br>
+ ![image](https://github.com/user-attachments/assets/1fb3633b-26d0-4210-afe0-2e287854859d)
+ ![image](https://github.com/user-attachments/assets/961f419e-2000-4ca4-9bb8-623eb091fe35)
+ ![image](https://github.com/user-attachments/assets/09ab4cdd-730e-4beb-b012-08d6c182e81f)
+ ![image](https://github.com/user-attachments/assets/38a0215d-cc95-4590-8735-33f41f55afc8)
+After this the extra regions that were being exposed to the UV light are washed away.</br>
+![image](https://github.com/user-attachments/assets/2a1acc7d-6a51-46ae-b48e-d3a92b81d54c)
+Next step is to remove the mask and etch out the exposed area. The area which has photoresit will be saved from the etchant.</br>
+![image](https://github.com/user-attachments/assets/355de28f-7ec5-49c4-9732-abc3e1461d26)
+After this the resist is also removed and we place the substrate into high temperature furnace to grow the SiO2 layer on the exposed area.</br>
+![image](https://github.com/user-attachments/assets/9b5b93f4-6a55-43e8-a209-9190a756c2df)
+![image](https://github.com/user-attachments/assets/c0df8c3f-619f-498a-afb3-da2924108818)
+Si3N4 was able to protect the areas underneath it, but couldn't protect the edges.</br>
+![image](https://github.com/user-attachments/assets/99d99c6d-b85f-49b4-931c-dd9f92875331)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
