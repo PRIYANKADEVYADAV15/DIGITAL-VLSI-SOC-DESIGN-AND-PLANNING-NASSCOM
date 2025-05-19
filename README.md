@@ -779,9 +779,53 @@ Also include the pmos and nmos files which are there in the libs folder. Use com
 
 Now make the definition for the supply voltage `VDD VPWR 0 3.3V` , `VSS VGND 0 0V`, and Input files `Va A VGND PULSE(0v 3.3V 0 0.1ns 2ns 4ns)`. Also add the command `.tran 1n 20n`, `.control` , `run`,`.endc`,`.end`.</br>
 Also add the model files of nmos and pmos.</br>
-![image](https://github.com/user-attachments/assets/93eeeb66-4382-4e78-a9cd-18b894c12735)
+![image](https://github.com/user-attachments/assets/1be025dc-4ed4-4c35-ae5a-cbc279b27dcc)
+
 
 Now our SPICE deck is ready, run `ngspice sky130_inv.spice`.
+![image](https://github.com/user-attachments/assets/f825708a-837c-46ba-9948-1ae1eb06f365)
+
+Now to plot the graph: `plot y vs time a`.</br>
+![image](https://github.com/user-attachments/assets/4fbb0bd8-652d-4249-beb8-6d7ecfaad8a4)
+
+The graph we get is shown below.</br>
+![image](https://github.com/user-attachments/assets/f76439d1-40ea-4ff7-9cf8-7e2a084fe434)
+
+we can see some spikes. So we will load the spice file again, C3 change 0.24fF to 2fF.Again run ngspice</br>
+![image](https://github.com/user-attachments/assets/d0af0835-6675-4173-abd9-eadb3bbdb11b)
+
+
+
+
+### 2.Lab steps to characterize inverter using sky130 model files
+#### We need to find different parameters; 'rise tran', 'fall tran', 'propagation delay', 'fall cell delay'
+ a) **rise tran**-time taken by o/p to transit from 20% of VDD to 80% of VDD.</br>
+    ![Screenshot 2025-05-20 014229](https://github.com/user-attachments/assets/c9a106e2-628c-4156-ab7e-dc1c8b767e56)
+    ![image](https://github.com/user-attachments/assets/56558b6e-6256-42b0-8270-e88d98ed062f)
+    The rise time=(2.245-2.181)ns=64ps</br>
+
+ b) **fall time**-time taken by o/p to transit from 80% of VDD to 20% of VDD.</br>
+    ![image](https://github.com/user-attachments/assets/bcfc0e8b-9a4d-4d48-bc41-c32fde699d57)
+    the fall time=(8.01307-4.052)ns=3.96ns</br>
+
+ c)**cell rise delay/propagation delay**-time difference between 50% of i/p and 50% of o/p when output is rising.</br>
+     ![image](https://github.com/user-attachments/assets/9879dc05-ad26-47f9-af26-10f318b228fe)
+     The cell rise delay=(2.21036-2.1496)ns=60.76ps</br>
+
+ d)**cell fall delay**-time difference between 50% of i/p and 50% of o/p when output is falling.</br>
+     ![image](https://github.com/user-attachments/assets/f19dd9dc-9ced-4027-801e-6adce28c202c)
+     The cell fall delay=(4.077-4.04988)ns=27.2ps</br>
+
+#### Therefore, we successfully have done the process calculations and characterize our inverter. Next we will create a LEF file and plugin the LEF file into picorv32a.
+
+
+
+
+
+
+
+
+
 
 
 
