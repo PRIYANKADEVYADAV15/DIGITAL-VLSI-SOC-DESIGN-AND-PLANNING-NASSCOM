@@ -606,9 +606,177 @@ Next step is to remove the mask and etch out the exposed area. The area which ha
 ![image](https://github.com/user-attachments/assets/355de28f-7ec5-49c4-9732-abc3e1461d26)
 After this the resist is also removed and we place the substrate into high temperature furnace to grow the SiO2 layer on the exposed area.</br>
 ![image](https://github.com/user-attachments/assets/9b5b93f4-6a55-43e8-a209-9190a756c2df)
-![image](https://github.com/user-attachments/assets/c0df8c3f-619f-498a-afb3-da2924108818)
+
 Si3N4 was able to protect the areas underneath it, but couldn't protect the edges.</br>
 ![image](https://github.com/user-attachments/assets/99d99c6d-b85f-49b4-931c-dd9f92875331)
+Now the transistors which will be fabricated are now isolated, this process is called 'LOCOS' Which is 'local oxidation of silicon', and the area which protects transistor from communicating is called 'Bird's Beak'.</br>
+![image](https://github.com/user-attachments/assets/26b3b682-8dcc-4755-9b4f-2800355b5ed5)
+Also the Si3N4 will be stripped out using hot phosphoric acid, resulting in an isolation layer.</br>
+![image](https://github.com/user-attachments/assets/4e44c2f3-e0b0-4fd0-9140-91e1a8d2a946)
+
+### 2. Formation of N-well and P-well
+   3)**Creation of nwell and pwell**- n well will be used for PMOS fabrication and pwell will be used for fabrication of NMOS. Both cannot be formed at the same time, so we need to protect one to make the other and vice versa.</br>
+   ![image](https://github.com/user-attachments/assets/93ac4c80-2a36-4cc8-894a-4ea4d3a2d54e)
+   We will expose the substrate with UV light.</br>
+   ![image](https://github.com/user-attachments/assets/1792a332-706a-417d-be27-1f26264cb5c0)
+   The area which does not have the mask washes away with the photoresist, and the remaining area is protected.</br>
+   ![image](https://github.com/user-attachments/assets/fbddcdc5-d6c2-4a5a-ab80-f9ff117035a2)
+   Next, remove the mask and create a p well using Boron with the help of ion implantation using ~200kev energy.So, the boron diffuses into the oxide layer in the p substrate.</br>
+   ![image](https://github.com/user-attachments/assets/de3130a1-aa35-499f-9411-f8471f808f7e)
+   Similarly we will create an active n region/ n well by ion implanting phosphorus. The energy required by photsphorus is bit high ~400kev because phosphorus is heavier than boron.</br>
+   ![image](https://github.com/user-attachments/assets/2c456d28-5766-4e02-bede-b80f6a3ba9b0)
+   N-well and P-well are created, but the depth is not finallised so we need to diffuse it under high temperature to create uniform depths.Pockets will be created, this is called 'twin-tub process'</br>
+   ![image](https://github.com/user-attachments/assets/679dc40b-b102-49ba-8ae2-13f0e086f7ae)
+
+   ### 3. Formation of gate terminal
+   #### 4) Gate Formation
+   We will now form the gate. Gate is a very important terminal as that's where we control the threshold voltage.</br>
+   To control Vt, we need to control the doping concentration and Oxide capacitance 
+   ![image](https://github.com/user-attachments/assets/984658aa-ea6f-4082-87e8-68944acd6b97)
+
+   Now we will put the Mask4 above the photoresist and expose the remaining area with boron at energy ~60kev. This time the energy is low because we want the boron to be at the surface and penetrate so much.Also we want the doping concentration to be precise for gate formation.</br>
+   ![image](https://github.com/user-attachments/assets/6f3e6235-dc71-4205-a460-4b602e40df5c)
+Similarly we will put Mask5 on the remaining side and dope with Arsenic. Just like p type we will control the energy here also, to get the required threshold voltage.</br>
+![image](https://github.com/user-attachments/assets/b89f0165-172c-4538-8ebd-131194aefda6)
+Due to so many implantation steps, the oxide layer underneath gets damage, so we will remove the oxide layer using HF and again regrow the layer ~10nm.</br>
+![image](https://github.com/user-attachments/assets/2a825c1c-4bb3-44de-a7f6-937d1daf234a)
+
+We will now fabricate a thick layer ~0.4 micron of polysilicon,and expose to very light Ntype (arsenic or phosphorus) layer by ion implantation for low gate resistance.</br>
+![image](https://github.com/user-attachments/assets/9e313fb4-9845-4086-8518-36c53abd8ae9)
+Then we will deposit Mask6 on top.</br>
+![image](https://github.com/user-attachments/assets/47d20211-309b-48e0-952d-236e5d079df0)
+Expose to the UV light, which washes away the exposed area, and the remaining area that was out from the photoresist is etched away.In this way we will get the polysilicon gate.</br>
+![image](https://github.com/user-attachments/assets/24981305-a913-439a-b50c-ca40c7b7983d)
+
+The remaining photoresist is removed. We will get the substrate, the oxide layer and controlled gate kayer of polysilicon.</br>
+![image](https://github.com/user-attachments/assets/8268a5fd-bbd2-45b4-9058-d82906674e67)
+
+### 4.Lightly doped drain (LDD) formation
+#### 5)LDD formation
+For PMOS we are tyring to build the P+,P-,N doping profile, where source is P+ doped, drain is lightly doped and substrate is N type. SImilarly for NMOS the doping profiles are N+,N-,P.</br>
+This profile is maintained due to two reasons:</br>
+**Hot Electron effect**- when device size reduces-->Electric field increases(E=V/d)-->high energy carriers break Si-Si bonds--> this energy crosses 3.2eV barrier between Si conduction band and SiO2 conduction band.</br>
+**Short channel effect**- due to low devices size-->gate length is changed from 1micron to 0.5 micron-->the drain area penetrates into channel area-->difficult for gate to control current between source and drain.</br>
+![image](https://github.com/user-attachments/assets/6a57bead-f8e6-4605-9708-3c2ed3bc0acf)
+After creating the Mask7 and creating impurity of Ntype over pwell, and due to ion implantation and by controlling the doping concentration we get the N- implants.</br>
+![image](https://github.com/user-attachments/assets/56cc0be3-e01e-4542-a1d7-f56c985e4926)
+Now we will create Mask8 and protect this layer and expose the other layer with Boron such a way that P- implants are created.</br>
+![image](https://github.com/user-attachments/assets/f863da4f-50d4-4a45-a7f4-e5a01f6325c0)
+But the actual structure will be affected by these implants, so to avoid this we will create 'side wall spacers' by depositing a thick SiO2 or Si3N4 layer on the gate terminal.Then doing the Plasma anisotropic Etching to remove the oxide layer. This etching does not remove side walls, there it will create "side wall spacers'.</br>
+![image](https://github.com/user-attachments/assets/f2feb1f7-0efe-44ec-b04d-6aa5ff42eb09)
+
+### 5. Source and drain formation
+#### 6) Source and drain formation
+Before the formation of Source and Drain,a thin screen layer of oxide is deposited to avoid channeling effect.</br>
+![image](https://github.com/user-attachments/assets/798902cf-db37-44f1-be22-a49656eb7383)
+
+For Source and Drain formation, we deposit make Mask9 on n substrate and exposing the p substrate to Arsenic with energy ~75eV. The side wall spacers will protect the LDD so that channeling does not happen.We will get the N+ structure required.</br>
+![image](https://github.com/user-attachments/assets/7b348110-d73a-47e7-9908-38ae1dc28645)
+Similarly we will mask this layer using Mask10 and expose the n substrate to Boron.</br>
+![image](https://github.com/user-attachments/assets/7979e346-51e7-4a78-9c92-3e9f9ebee48f)
+Now we will put the structure under high temperature for Annealing, it will push the dopants more inside the substrate and there will be uniform distribution.</br>
+![image](https://github.com/user-attachments/assets/0f3dac2f-e21f-4a93-a3fc-5bb82808e83e)
+
+### 6. Local interconnect formation
+#### 7) Steps to form contacts and interconnects(local)
+Contacts are really important, as these are the only users a user can connect to the circuit.For thsi first we will etch out the thin oxide layer for avoiding channeling effect using HF.</br>
+![image](https://github.com/user-attachments/assets/8d18c933-a264-443c-8947-5a97381b359d)
+For creating local interconnects, first we will deposit Titanium suing sputtering process all over the substrate.</br>
+![image](https://github.com/user-attachments/assets/814699e6-760a-4bb3-9091-97ad6b91eb4a)
+Next step is to create the connects between titanium and source drain. This is done by heating the wafer at an ambient temperature of 600-700 degreese celcius under N2 gas for 60sec. This will result in TiSi2(a low resistive metal contact on gate) contacts created on source and drain. Also TiN layer will be formed, it is used only for local communication.</br>
+![image](https://github.com/user-attachments/assets/d4a34079-cf24-47ff-a3dd-7f996cb6bd4d)
+To bring up the required contacts on top, we will put Mask11 and etch out the area we want to be coming out. We want Source, Drain and Gate area to be coming out.</br>
+![image](https://github.com/user-attachments/assets/489eeb8c-e0c9-45c8-b2c5-ccac42ecac94)
+We will etch out the extra TiN layer using RCA cleaning.</br>
+![image](https://github.com/user-attachments/assets/1175a90c-49d6-4451-8dc1-3756c2dba141)
+![image](https://github.com/user-attachments/assets/8186100f-304b-4b8b-ba25-a457f87d3f56)
+
+### 7. Higher Level Metal Formation
+#### 8) Higher level metal formation
+Here we observe there is non planarity which is not good for depositing higher metal interconnects.So we will planarise this surface by using thick layer of SiO2 which is doped with phosphorus and boron. The reason of doping is that phosphorus protects the layer from reactive sodium ions and boron is used to reduce the temperature as this wafer will be exposed to certain high temperature so boron will help in reducing the temperature.</br>
+![image](https://github.com/user-attachments/assets/cbfbaafe-3b02-42b0-8cc5-68551107595b)
+To remove th hills and bumps we do polishing, CMP.</br>
+![image](https://github.com/user-attachments/assets/a2f002e7-81a0-4a0a-b050-09b458dcc118)
+Next is creating the metal contacts by drilling, so this also done by photlithography technique. By using Mask12.</br>
+![image](https://github.com/user-attachments/assets/b0b855b8-a272-41b4-8f25-c0a8f161a333)
+Now we will remove the mask by washing away the photoresist. We will create  thin layer ~10nm of TiN, it acts as Adhesion layer between SiO2 and acts a barrier layer for bottom and top interconnects.</br>
+![image](https://github.com/user-attachments/assets/7ff6c2ab-5dbd-4397-8167-294ad99e53cc)
+Then we will  deposit a blanket of Tungsten(W) layer, this will help to create a very good contact from bottom to top.</br>
+![image](https://github.com/user-attachments/assets/6f25a73b-811f-413d-bc2f-8d856874d739)
+NExt, is CMP, removing the extra tungsten from top.</br>
+![image](https://github.com/user-attachments/assets/f706e0a8-03d4-413f-8e8a-8c8ab4be1474)
+Now we will deposit metal Aluminium layer on top to take the metal contacts above. Further we will mask to expose the specific areas.</br>
+![image](https://github.com/user-attachments/assets/4e09044c-6e21-4023-b3c2-d9fee381d166)
+![image](https://github.com/user-attachments/assets/67ef4b08-5da7-4b54-bc59-6df84022c897)
+We got the first layer of metal interconnect below.</br>
+![image](https://github.com/user-attachments/assets/2e113595-a846-4b33-8c90-5bc0b38c9be5)
+We will repeat the above processes to get further layer of metal interconnects.</br>
+![image](https://github.com/user-attachments/assets/171d3200-c2cc-4305-9e55-4fdca7533125)
+![image](https://github.com/user-attachments/assets/ef56e117-0ade-431b-bbef-db17a8a93ddf)
+
+After Mask14 again a thin layer or TiN is deposited.</br>
+![image](https://github.com/user-attachments/assets/7ec2ce83-ec2a-4c50-ab25-9b7bebab8d8d)
+
+Now agaian depositing Tungsten(W) on top.</br>
+![image](https://github.com/user-attachments/assets/83bb5f50-60eb-4679-806e-35770d7ccd89)
+
+Now we will deposit the third layer of interconnect using Mask15. Also the thickness is more than the bottom layer. When we go from bottom to top the thickness of metal layers increase.</br>
+![image](https://github.com/user-attachments/assets/73c05b80-3087-4c3d-bf15-8d29d3d0ebec)
+
+After this we will deposit the Si3N4 layer, we use Si3N4 to protect the chip as this is a good protectant layer from the outside world.</br>
+![image](https://github.com/user-attachments/assets/e30a6a1e-670b-4017-8e48-72cdd1b615b7)
+
+Finally, we will use Mask16 to drill out the final contacts outside.</br>
+![image](https://github.com/user-attachments/assets/2a00a984-9319-4e4f-8305-06cf85d25078)
+
+### 8.Lab introduction to Sky130 basic layers layout and LEF using inverter
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+   
+
+   
+
+
+
+
+
 
 
 
