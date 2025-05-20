@@ -818,6 +818,79 @@ we can see some spikes. So we will load the spice file again, C3 change 0.24fF t
 
 #### Therefore, we successfully have done the process calculations and characterize our inverter. Next we will create a LEF file and plugin the LEF file into picorv32a.
 
+### 3.Lab introduction to Magic tool options and DRC rules
+#### We need to understand the DRC rules.
+For this we can go to website: <a href="http://opencircuitdesign.com/"> http://opencircuitdesign.com/</a> , and learn about Magic tool and various DRC rules.</br>
+To know about skywater130 pdks: <a href="https://www.skywatertechnology.com/sky130-open-source-pdk/"> https://www.skywatertechnology.com/sky130-open-source-pdk/</a>.</br>
+Github repository for skywater-pdks: <a href="https://github.com/google/skywater-pdk"> https://github.com/google/skywater-pdk</a>. </br>
+
+### 4. Lab introduction to Sky130 pdk's and steps to download labs
+#### To download layout and DRC documentation:
+To download lab files for DRC documentation.</br>
+`wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz`</br>
+`tar xfz drc_tests.tgz`</br>
+Open `drc_tests` file in this folder.</br>
+![image](https://github.com/user-attachments/assets/a966c705-06a3-49e2-93ec-805346079a6d)
+![image](https://github.com/user-attachments/assets/101d93e1-26bb-49fd-a431-6432fb20b44d)
+
+
+Do `ls -al` to list down what is there inside.</br>
+There is a .magicrc directory in this, open it using `vim .magicrc`.It is the starup for magic, it verifies the technology file for magic.Although not suggested to make any changes in this directory.</br>
+![image](https://github.com/user-attachments/assets/96e66e62-a81f-4d7d-aa00-48edb62825c6)
+
+
+
+### 5.Lab introduction to Magic and steps to load Sky130 tech-rules
+We can start the magic with visual graphics using the command, `magic -d XR &`.</br>
+From the file-->open-->met3.mag.</br>
+![image](https://github.com/user-attachments/assets/954ba083-1d2a-4031-86e5-00cacd83cda2)
+
+Here it shows number of independent layout, in which most of them show DRC errors.Each of these examples have a name and these names are called out in google_skywater_documentation.</br>
+
+For writing the commands we have the tkcon window, type `drc why` in the tkcon window.In return we will see why the DRC rule has been violated</br>
+![image](https://github.com/user-attachments/assets/7e86ae4b-99de-4095-bdda-80288327a96b)
+
+Now select a large area by left and right click of mouse, then hover over m3contact from colour palatte-->press p-->then on tkcon type `cif see VIA2`.</br>
+We'll see a bunch of black squares, these are metal contacts.</br>
+![image](https://github.com/user-attachments/assets/7948cd33-0e05-47d8-b16a-48f06c64721c)
+
+### 6.Lab exercise to fix poly.9 error in Sky130 tech-file
+This will be the first exercise of the lab.</br>
+In magic load the file `load poly.mag`.</br>
+![image](https://github.com/user-attachments/assets/7f4cfff2-c374-4f41-bbf2-2c1b085add1c)
+![image](https://github.com/user-attachments/assets/e488850f-a02a-45f7-9ebc-38d4f7e1a324)
+
+We need to find the error. We look for the file sky130A.tech inside the drc_tests folder.</br>
+Search for poly.9 by pressing esc-->write /poly.9--> we found 2 matches.</br>
+![image](https://github.com/user-attachments/assets/1cdd6d30-3b7a-4547-aedf-970aa32f0c29)
+![image](https://github.com/user-attachments/assets/b9430f7e-c5a6-47db-8b7a-41d2be1180fd)
+
+Make the required changes, and save the file</br>
+![image](https://github.com/user-attachments/assets/df855984-e8d1-497b-8625-1b6f2b22b1a1)
+![image](https://github.com/user-attachments/assets/068452eb-820a-4f3c-9242-542cdc7ae3f7)
+
+To check, the run the command on tkcon command window `tech load sky130A.tech`.</br>
+then type command `drc check`, to check if it matches with the existing DRC rules.</br>
+![image](https://github.com/user-attachments/assets/7cdce110-2256-4db9-ba74-fa95cd631558)
+
+### 7.Lab exercise to implement poly resistor spacing to diff and tap
+There are more changes to be made:</br>
+We will copy the 3 resistors and check for different varieties of diffusion and tap, we will check for n-diffusion, p-diffusion, n-tap and p-tap.</br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
