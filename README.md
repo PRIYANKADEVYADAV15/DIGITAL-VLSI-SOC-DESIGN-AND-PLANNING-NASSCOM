@@ -305,7 +305,7 @@ To see how the floorplan looks like, we will go inside the created file by runni
 ![image](https://github.com/user-attachments/assets/a364bda2-3721-42b3-853c-1f0091a3a27d)
 
 After opening the file we will get various parameters, the diarea which is given in databased unit. We need to convert into microns.</br>
-1 microns = 1000 database units, so given DIAREA (0 0) (66065 67145), converted into microns becomes,</br>
+1 microns = 1000 database units, so given DIAREA (0 0) (660685 671045), converted into microns becomes,</br>
 **Width= 660.685 microns, Height=671.045 microns**
 ![image](https://github.com/user-attachments/assets/9b852944-2da2-4ab3-ac77-d20de8ab2a79)
 
