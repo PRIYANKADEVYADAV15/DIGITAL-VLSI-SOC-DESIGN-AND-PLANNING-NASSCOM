@@ -885,7 +885,7 @@ We will copy the 3 resistors and check for different varieties of diffusion and 
 Till now we are done with floorplan and placements. Also given `.mag` file --> we have seen how toextract spice model and do the characterisation. </br>
 For placement and routing in openlane, we need not require the entire .mag file, we just need the inner and outer boundary, power and ground rails and input and output ports.</br>
 This is where LEF(library exchange format) file comes into picture. LEF file basically protects the IP. So, our next objective to extract the LEF file from `.mag` file and then the extracted LEF file would be plugged into picorv32a flow.</br>
-** There are certain guidelines to be followed while making standard cells. ** </br>
+**There are certain guidelines to be followed while making standard cells.** </br>
 1) The input and output port must lie on the intersection of verical and horizontal tracks.</br>
 2) The width of standard cell must be 'odd' multiple of track 'horizontal' pitch and the height should be the 'odd' multiple of track 'vertical' pitch.</br>
 
@@ -919,11 +919,64 @@ After this we need to decide the port names and values, they provide nothing but
 ![image](https://github.com/user-attachments/assets/690f7c7d-3128-4660-bd58-a33b0774d6e7)
 Give the required values.</br>
 ![image](https://github.com/user-attachments/assets/f9c04729-53b0-4f20-8068-c2cbc056dacc)
+
 Similarly we need to define the ports for other layers as well. To define port A is an input port and Y is an output port we define `port class` and `port use`. We can further get the information at `https://github.com/nickson-jose/vsdstdcelldesign` </br>
 Once these parameters are set, we are ready to extract the LEF file from .mag.</br>
 Also save the mag file as the name you want it to be saved.</br>
+
 ![image](https://github.com/user-attachments/assets/a6e3fede-53e1-4f25-8b14-75b14117d335)
+
 ![image](https://github.com/user-attachments/assets/bc7aa4c8-f1f0-483e-aac4-8352c1be2c77)
+
+Open the `.mag` file in magic created in vsdstdcelldesign folder.</br>
+![image](https://github.com/user-attachments/assets/c692680c-a5fd-428c-9fdb-452139557a2e)
+
+To extract LEF, write the command `lef write` in tkcon. The lef file will be created in the same name as magic file i.e. `sky130_vsdinv.mag`.</br>
+A lef file will be created under vsdstdcelldesign.</br>
+![image](https://github.com/user-attachments/assets/1587954d-792d-4df9-ba33-f413b29d885a)
+
+If we open the lef file, we will see what all changes we did in the magic.</br>
+![image](https://github.com/user-attachments/assets/560a9498-76ed-4d14-9431-44289dcb9204)
+Now we will pluf in these files in picorv32a folder.</br>
+
+### Introduction to timing libs and steps to include new cell in synthesis
+We have created the lef file, now we will copy the lef file into src folder where all the designs are kept at one place. Copy the lef file by using command `cp` to the location of src.</br>
+![image](https://github.com/user-attachments/assets/d58618c2-5b27-40f7-85a9-b21697d96b7f)
+
+The lef file has been included.</br>
+![image](https://github.com/user-attachments/assets/736815c3-cc1c-401a-a207-7e50ae9e1c6e)
+
+We need to include our custom cell into openlane flow and first stage in openlane is 'synthesis'. We have to ensure that the ABC maps netlist to the cells in the library. So we need to have the library, which has our cell definition for synthesis that also has been included ss the part of vsdstdcelldesign.</br>
+![image](https://github.com/user-attachments/assets/15c1c563-760f-446d-8287-9730b1bcdf17)
+
+This is how a library looks like, it has complete characterisation of the cell, soecifying the cell_rise, cell_fall time.</br>
+Also we have different library files as typical, fast and slow files for different voltages, temperature etc.</br>
+![image](https://github.com/user-attachments/assets/ee1d7bde-e3c8-46fd-8049-a20768a7f12e)
+
+Now our next objective is that the tool should map vsddtdcelldesign during the synthesis of slow. So for that we will copy the libraries in the src.</br>
+![image](https://github.com/user-attachments/assets/2e8596fd-b962-4efc-aa32-3ef250e4e65b)
+![image](https://github.com/user-attachments/assets/24a8bc89-accf-4336-87f4-447ad5043224)
+
+Now we need to modify our confing.tcl which in picorv32a folder.</br>
+![image](https://github.com/user-attachments/assets/b5fa0374-7d74-485c-97bc-688e76a673ee)
+
+Write the commands as shown below in the image.</br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
