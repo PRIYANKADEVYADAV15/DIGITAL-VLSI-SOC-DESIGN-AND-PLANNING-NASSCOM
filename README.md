@@ -877,6 +877,12 @@ then type command `drc check`, to check if it matches with the existing DRC rule
 There are more changes to be made:</br>
 We will copy the 3 resistors and check for different varieties of diffusion and tap, we will check for n-diffusion, p-diffusion, n-tap and p-tap.</br>
 
+# Sky 130 Day 4- Pre Layout timing analysis and importance of good clock tree
+## Timing Modelling using Delay Tables 
+### Steps to convert grid info to track info
+
+
+
 
 
 
