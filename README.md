@@ -881,7 +881,66 @@ We will copy the 3 resistors and check for different varieties of diffusion and 
 
 # Sky 130 Day 4- Pre Layout timing analysis and importance of good clock tree
 ## Timing Modelling using Delay Tables 
-### Steps to convert grid info to track info
+### Lab Steps to convert grid info to track info
+Till now we are done with floorplan and placements. Also given `.mag` file --> we have seen how toextract spice model and do the characterisation. </br>
+For placement and routing in openlane, we need not require the entire .mag file, we just need the inner and outer boundary, power and ground rails and input and output ports.</br>
+This is where LEF(library exchange format) file comes into picture. LEF file basically protects the IP. So, our next objective to extract the LEF file from `.mag` file and then the extracted LEF file would be plugged into picorv32a flow.</br>
+** There are certain guidelines to be followed while making standard cells. ** </br>
+1) The input and output port must lie on the intersection of verical and horizontal tracks.</br>
+2) The width of standard cell must be 'odd' multiple of track 'horizontal' pitch and the height should be the 'odd' multiple of track 'vertical' pitch.</br>
+
+Now what actually a track is? For this go to `openlane_working_dir/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/` , there is a file `tracks.info` --> open the file.</br>
+![image](https://github.com/user-attachments/assets/dcddeea8-fab9-40f0-9ece-06cd6f4ee906)
+A track is a virtual line along which routing tools can place wires (routes) for connecting different pins or logic cells. Tracks exist on each metal layer, and are defined by:</br>
+Direction (horizontal or vertical)</br>
+Pitch (distance between adjacent tracks)</br>
+Starting coordinate</br>
+Tracks help create a grid-based routing architecture, simplifying and standardizing the routing process.</br>
+Routes are the metal traces, like traces of li1, metal1 and metal2 and so on.</br>
+PNR is automated, so we need to specify where we want the routes to go. This specification is given by tracks. Each of the tracks is placed at (offset, pitch) i.e. (0.23, 0.46)um horizontally and (0.17, 0.34)um vertically for li1, metal 1, and metal 2 layers.</br>
+![image](https://github.com/user-attachments/assets/b4383c72-5eb1-49ae-ab38-5c0c24047b05)
+
+Now if we talk about the first rule-->the input and output ports must lie on the intersection of vertical and horizontal tracks. In the image below we can see the the ports are on li1 layer. To ensure that the ports are on the intersection of the tracks, we will need to convert the grid into the tracks.</br>
+In magic if you press `g` the grids get activated. You can a small black box when we press `g`. These are the references of the layout, Now we will convert the grid into tracks and verify whether A nd Y ports lie on the intersection of horizontal and vertical tracks of li1.</br>
+![image](https://github.com/user-attachments/assets/ef01a91e-20e8-42a8-b702-56feef39ee23)
+
+For this we will go to the tracks file and open tkcon, write `help grid`, we will get to know what all arguements a grid needs.</br>
+![image](https://github.com/user-attachments/assets/5c2e9599-e8d9-47fa-b243-3b149d90f8a9)
+
+Here we can see that we need [xspacing [ yspacing [xorigin  yorigin]]], here x and y spacing are the pitch given in li1 layer for x and y. The origin is offset value for x and y. Therefore make the grid according to that.</br>
+![image](https://github.com/user-attachments/assets/2e05a7b0-7e4e-48e0-85eb-10e3214d2d76)
+Press `enter`, We will see the grids are coverted into tracks, also if we zoom in the port A and Y lies on the intersection of horizontal and vertical tracks.This will ensure that the route can reach the traqack from x and y directions.</br>
+![image](https://github.com/user-attachments/assets/f2ea20eb-8e49-4ff4-ab2f-ee234f91fc34)
+
+### Lab steps to convert magic layout to standard cell LEF
+Now the second requirement is that the width of the standard cell must be odd multiple of x direction pitch. We can see that here the width is multiple of 3 to the horizontal pitch. Similarly we will check for the height of the standard cell</br>
+![image](https://github.com/user-attachments/assets/1bdcb464-3ecf-4f79-a42a-7f412f2181a0)
+After this we need to decide the port names and values, they provide nothing but the pins in the layout. For this we need to select the layer where port is needed to be defined--> go to Edit--> go to text </br>
+![image](https://github.com/user-attachments/assets/690f7c7d-3128-4660-bd58-a33b0774d6e7)
+Give the required values.</br>
+![image](https://github.com/user-attachments/assets/f9c04729-53b0-4f20-8068-c2cbc056dacc)
+Similarly we need to define the ports for other layers as well. To define port A is an input port and Y is an output port we define `port class` and `port use`. We can further get the information at `https://github.com/nickson-jose/vsdstdcelldesign` </br>
+Once these parameters are set, we are ready to extract the LEF file from .mag.</br>
+Also save the mag file as the name you want it to be saved.</br>
+![image](https://github.com/user-attachments/assets/a6e3fede-53e1-4f25-8b14-75b14117d335)
+![image](https://github.com/user-attachments/assets/bc7aa4c8-f1f0-483e-aac4-8352c1be2c77)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 
