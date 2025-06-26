@@ -583,6 +583,8 @@ You can see that is has been copied.</br>
 We will now see the layout in magic. Also don't need to write the whole code as we have copied the tech file inside the present working directory</br>
 Also '&' after writing the command is used to free the magic for next prompt.</br>
 We have got the layout of the inverters below.</br>
+![image](https://github.com/user-attachments/assets/7aa0ce8b-cce2-4e79-8ce9-67a2371f8a80)
+
 ![image](https://github.com/user-attachments/assets/86dbe57e-3b2d-4c0d-af6a-9608cb64050f)
 
 ## Inception of layout ̂ÃÂ CMOS fabrication process
