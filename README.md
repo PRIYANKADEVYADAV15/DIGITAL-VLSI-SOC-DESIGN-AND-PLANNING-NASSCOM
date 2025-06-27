@@ -961,6 +961,17 @@ Now we need to modify our confing.tcl which in picorv32a folder.</br>
 ![image](https://github.com/user-attachments/assets/b5fa0374-7d74-485c-97bc-688e76a673ee)
 
 Write the commands as shown below in the image.</br>
+![image](https://github.com/user-attachments/assets/ec66f2cc-4db9-4679-9eee-e2b3835faed9)
+
+The modifications to be done are:</br>
+1) In the design's config.tcl file add the below line to point to the lef location which is required during spice extraction.</br>
+    `set ::env(EXTRA_LEFS) [glob $::env(OPENLANE_ROOT)/designs/$::env(DESIGN_NAME)/src/*.lef]` </br>
+2) Include the below command to include the additional lef into the flow:</br>
+    `set lefs [glob $::env(DESIGN_DIR)/src/*.lef]`
+  
+    `add_lefs -src $lefs`
+
+
 
 
 
