@@ -971,6 +971,68 @@ The modifications to be done are:</br>
   
     `add_lefs -src $lefs`
 
+In Openlane we will run the following steps:</br>
+`docker
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a -tag 27-06_06-12 -overwrite
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+run_synthesis`
+Now we will ckeck if the openlane maps the LIBS_SYNTH from config.tcl</br>
+![image](https://github.com/user-attachments/assets/eba51239-d9ff-49b1-899f-bc89d9795556)
+
+### Introduction of delay tables
+**Power Aware CTS** - In logic And gate if one input is connected to logic '1' and other input is at Clk, then the output will be equal to the clock given i.e. the clock will propagate at the output. Also if we give logic '0' then at the output the clock will be blocked. Similarly in an OR gate if one input is logic '0' and other input is clk, then at the output the clock will be propagated and at logic '1' the clock will be blocked.</br>
+![image](https://github.com/user-attachments/assets/7c9ca04a-ea34-431c-ac10-451fac3ab781)
+The main advantage we can get out of the this is that for the rest of the circuit there will be no switching and power supply consumed at that point of time. It will save a lot of power.</br>
+
+In the below circuit, we can see Splitting the complete load using buffers. Also after "Clock gating", will the cicuit work according to our requirements?</br>
+We will swap the buffer with AND and OR gates and see how the characteristics change.</br>
+![image](https://github.com/user-attachments/assets/f04ac2ee-8e6e-4381-b5e1-b87b319666a4)
+
+Before swapping, we made some assumptions and taken observations:</br>
+![image](https://github.com/user-attachments/assets/52c6a92a-73a5-4c13-a196-6b68f239abfc)
+
+We have observed that the output capacitance of the buffer for the entire circuit is not constant, load at the output will be varying and since the load is varying so input transition is also varying. Due to this there will be a variety of delays, so how to capture that?
+For this we have 'Delay Tables'. These are 2 Dimensional Tables, prepared by taking specific buffer and while keeping the input slew rate constant and changing the output capacitance, delay is observed and noted down the value. We make delay tables of each and every cell of buffer, and this becomes the 'Timing Models' of buffers.</br>
+![image](https://github.com/user-attachments/assets/7c59743f-9a7c-4d7e-8039-6e788a5cb50c)
+
+### Delay Tables usage part 1
+Delay tables are a representation of delay for a particular cell, similar table we'll be having for each and every kind of gates i.e. AND, OR, NOT... gates will have individual delay tables.</br>
+
+Let us take the delay table for buffer of size 1, suppose we want to find the delay for input slew rate 60ps and output load as 70Ff, so the delay will be the value where both intersects. Similarly we can find the delay for buffer of size 2 as well.</br>
+Also with sizes we mean the W/L ratio of pmos and nmos which are there in the buffers.</br>
+We will try to calculate the delay of buffer with size 1, here input slew rate is 40ps and output load is suppose 60Ff, as it lies between 50Ff and 70Ff the values are extrapolated from the table.</br>
+Let the delay be x9' for buffer of size 1.</br>
+![image](https://github.com/user-attachments/assets/1f930af6-71a3-44d8-b9f2-75de995c838b)
+
+### Delay Tables usage part 2
+Now let us consider the buffer of size 2, we got the delay for that buffer as x15. The output delay for one part of buffer will be x9' + x15. Similarly if the buffer is same in second part, the delay will be same and when we'll calculate the 'Latency' at the output there will be no Skew. But for different delays in both the parts, the Skew won't be 0. This can lead to Propagation delay, Static hold time delays and so on.</br>
+
+### Labs step to configure synthesis settings to fix slack and include vsdinv
+Let's do some modification in README folder under configuration file.</br>
+![image](https://github.com/user-attachments/assets/99acf63f-e3a4-4baa-b305-6592c36d0edf)
+
+After we ran the synthesis, we can see slack time delay which is very high. Slack is a measure of timing margin — it tells you how much “extra time” or “delay buffer” a signal path has before violating its timing constraint. </br>
+Slack = Required Time – Arrival Time </br>
+Arrival time < Required time → Good!</br>
+Arrival time > Required time → Bad!</br>
+Let's make the synthesis 'Timing Driven'. We will try to find the balance between delay and the area.</br>
+At present the chip area is as shown below, we need to make balance using synthesis strategies.</br>
+![image](https://github.com/user-attachments/assets/a6f89a8d-53f4-4222-9234-cf6260618f86)
+
+If we set the strategy to 1, the area should increase a little bit but the timing will improve.</br>
+We will set the strategy by writing `set
+
+
+
+
+
+
+
+
+
 
 
 
