@@ -1076,7 +1076,7 @@ After this, we are now good to run placement, ```run_placement```.</br>
 We will see the iterations, the overflow should decrease with increasing iterations.</br>
 ![image](https://github.com/user-attachments/assets/919c5461-af5f-4570-9805-8bdfbb3ccea7)
 
-The Placement ran successfully.<.br>
+The Placement ran successfully.<br>
 ![image](https://github.com/user-attachments/assets/41570bec-e985-4acf-8b3e-6492629fba01)
 
 
