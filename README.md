@@ -972,13 +972,13 @@ The modifications to be done are:</br>
     `add_lefs -src $lefs`
 
 In Openlane we will run the following steps:</br>
-`docker
-./flow.tcl -interactive
-package require openlane 0.9
-prep -design picorv32a -tag 27-06_06-12 -overwrite
-set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
-add_lefs -src $lefs
-run_synthesis`
+```docker```
+```./flow.tcl -interactive```
+```package require openlane 0.9```
+```prep -design picorv32a -tag 27-06_06-12 -overwrite```
+```set lefs [glob $::env(DESIGN_DIR)/src/*.lef]```
+```add_lefs -src $lefs```
+```run_synthesis```
 Now we will ckeck if the openlane maps the LIBS_SYNTH from config.tcl</br>
 ![image](https://github.com/user-attachments/assets/eba51239-d9ff-49b1-899f-bc89d9795556)
 
@@ -1020,10 +1020,75 @@ Arrival time < Required time → Good!</br>
 Arrival time > Required time → Bad!</br>
 Let's make the synthesis 'Timing Driven'. We will try to find the balance between delay and the area.</br>
 At present the chip area is as shown below, we need to make balance using synthesis strategies.</br>
+Also the 'Total Negative slack'(tns) and 'Worst Negative slack'(wns) is too high here.</br>
 ![image](https://github.com/user-attachments/assets/a6f89a8d-53f4-4222-9234-cf6260618f86)
 
 If we set the strategy to 1, the area should increase a little bit but the timing will improve.</br>
-We will set the strategy by writing `set
+We will set the strategy by writing `set ::env(SYNTH_STRATEGY) "DELAY 3"` , this will set the strategy to delay 3.</br>
+
+Now we will set the SYNTH_BUFFERING, it Inserts buffers automatically on nets that drive too many loads (high fanout).Helps to reduce delay, improve signal integrity, and meet timing closure.</br>
+We will check if the buffer strategy is on or not ```echo $::env(SYNTH_BUFFERING)```.</br>
+We will also check if cell sizing is on or not by ```echo $::env(SYNTH_SIZING)```</br>
+Set the driving cells as well; this ensures that there are driving cells at the input in case of high fanout.</br>
+AFter writing the following commands, when we did `run_synthesis`, we got the following errors.</br>
+![image](https://github.com/user-attachments/assets/20e8e33e-f5aa-40ad-bc8f-7edbc06b9675)
+
+To rectify this we need to follow the steps below:</br>
+```prep -design picorv32a -tag 29-06_05-12 -overwrite```
+
+```set lefs [glob $::env(DESIGN_DIR)/src/*.lef]```
+
+```add_lefs -src $lefs```
+
+```echo $::env(SYNTH_STRATEGY)```
+
+```set ::env(SYNTH_STRATEGY) "DELAY 3"```
+
+```echo $::env(SYNTH_BUFFERING)```
+
+```echo $::env(SYNTH_SIZING)```
+
+```set ::env(SYNTH_SIZING) 1```
+
+```echo $::env(SYNTH_DRIVING_CELL)```
+
+```run_synthesis```
+
+These steps creates a netlist which has a reduced slack and the chip area has increased with, tns and wns has reduced to 0.</br>
+![image](https://github.com/user-attachments/assets/470acd24-e49f-4062-b669-8d5330eb8fd0)
+![image](https://github.com/user-attachments/assets/f695d549-2bb7-4457-8661-d411873d4326)
+
+AFter the synthesis is successfully run, we will now do ```run_floorplan```.</br>
+But we got the error as shown below,</br>
+![image](https://github.com/user-attachments/assets/68ffe417-7745-4346-927c-955825d5dde6)
+
+To rectify this we will run the following commands,<br>
+```init_floorplan```
+
+```place_io```
+
+```tap_decap_or```
+![image](https://github.com/user-attachments/assets/36cb8e20-45e6-463b-b4b8-78803484bb60)
+![image](https://github.com/user-attachments/assets/2eeeb7fd-0a41-428e-92cc-7f355e81424e)
+![image](https://github.com/user-attachments/assets/bd5fbbf4-505f-4ba8-9592-4e4d7324bbe8)
+
+After this, we are now good to run placement, ```run_placement```.</br>
+We will see the iterations, the overflow should decrease with increasing iterations.</br>
+![image](https://github.com/user-attachments/assets/919c5461-af5f-4570-9805-8bdfbb3ccea7)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
