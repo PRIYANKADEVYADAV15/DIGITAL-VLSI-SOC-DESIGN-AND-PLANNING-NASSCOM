@@ -1079,6 +1079,94 @@ We will see the iterations, the overflow should decrease with increasing iterati
 The Placement ran successfully.<br>
 ![image](https://github.com/user-attachments/assets/41570bec-e985-4acf-8b3e-6492629fba01)
 
+We will find the vsd_inv cell here. We will see the overlapping, means Abettment which means the power and ground rails are shared between the cells.</br>
+![image](https://github.com/user-attachments/assets/206ea60c-fc45-4faa-8ef4-e716bacb2af7)
+
+Now in tkcon we will write ```expand```.</br>
+![image](https://github.com/user-attachments/assets/aa8534d9-50f3-48aa-ad43-6d846cd37012)
+
+## Timing Analysis with Ideal clock using open STA
+### Setup timing Analysis and introduction to Flip-Flop Setup time
+We will now take the ideal clock first, to introduce about Timing Analysis then we will introduce the real clocks and do the Real Timing Analysis.</br>
+Let us consider a 'Single clock' which refers to a timing path where both the launch flip-flop and the capture flip-flop are triggered by the same clock signal.</br>
+Given the clock specifications as: 
+**Clock Frequency(f)=1GHz** </br>
+**Clock period(T)=1/f=1ns** </br>
+Now what is actually "Setup Timing Analysis", It ensures that data launched from one flip-flop arrives at the next flip-flop before the clock edge that is intended to capture it. The check is done between a rising edge (or falling edge) of the same clock for both launch and capture.</br>
+
+Now will do the analysis between '0' and 'T' clock period. We sent at edge to the launch flop at '0' clock period and at T=1ns period the second edge reached to capture flop.</br>
+Let's say here we have combinatonal delay of theta and set up timing analysis says that this combinational delay should be less than the T for system to work properly.</br>
+![image](https://github.com/user-attachments/assets/6e98a0e9-d9f6-4d72-bf7a-6ca0d6cb3a32)
+
+Now we will introduce more practical scenarios in it,</br>
+The first thing to be considered is the Flop itself. If we open a particular flop, there is a lot of combinational circuits in it. There are several Mosfets, Capacitances and gates inside it.</br>
+![image](https://github.com/user-attachments/assets/59c9f5db-2a30-465c-b6f4-4ca9f29cd4be)
+
+Inside the capture clock, we can see 2 multiplexers. So when the clock is '0', the delay considered will be only of Mux1 whereas if he clock is '1' the delay of both the Multiplexers Mux1 and Mux2 is considered.</br>
+
+So there is some finite amount of time which is required to the D input to settle and this amount of time is reffered to as SET UP TIME.</br>
+
+Hence finite time 's' required before clk edge for 'D' to reach Qm.</br>
+
+So, we can write that the internal delay of the MUX1 = set up time(S).</br>
+
+So, now θ<T becomes θ<(T-S).</br>
+
+### Introduction to clock jitter and uncertainity
+Next practical scenario is called "JITTER". The clock is being created by PLL(Phased-locked loop) and the clock is expected to send signal at t=0, 2T, 3T, ..., but the clock source created out of PLL is made using wires; so there is resistance and capacitances. Due to which it is not expected to give clock edge at exactly t=0ns. So there is clock edge present which is in built. This is called "Jitter".</br>
+![image](https://github.com/user-attachments/assets/1d9e3544-109e-411c-9489-301926978db1)
+
+So initially the period was from 0 to T, now it is shrinked to less than 0 and T. This temperory variation even though very less can cause failures in circuit. And also we have kept θ<(T-S), now this will also change. Jitter has to be modelled in the above equation only. </br>
+Now let's model Jitter using a second parameter i.e. "Uncertainity". we will club both time for clock edge and uncertainity.</br>
+![image](https://github.com/user-attachments/assets/33ba8829-5fd9-49ad-846d-43c2696b7b98)
+
+So, earlier the combinational delay was supposed to be less than (T-S) will now become θ<(T-S-US), where SU = Setup uncertainity time.<br>
+![image](https://github.com/user-attachments/assets/7fbf3d1c-16f0-4134-9abe-bf0f841fbd99)
+
+Let us take an example; T=1ns, S=10ps=0.01ns, SU=90ps=0.09ns.</br>
+The required combinational delay(θ) = 1ns-0.01ns-0.09ns= 0.9ns.</br>
+With this timing analysis let's try to identify the timing path from the existing scenario.</br>
+![image](https://github.com/user-attachments/assets/fa8eb62c-07b9-4438-8ac8-d46cf710843b)
+
+![image](https://github.com/user-attachments/assets/edf65b38-bc27-48b3-b8ce-2807b02bce60)
+
+As calculated above the combinational delay expected to be is θ<0.9ns.Once we assure that the delay obtained is equal to the expected delay, then we will be assured that the placement done is correctly optimised according to the requirements using "single clock".</br>
+Next challenge we need to undergo is similar kind of timing analysis using "Multiple clock".
+
+### Labs steps to configure OpenSTA for post synth Timing Analysis
+To reduce the slack and timing violations in Openlane, we require a separate tool which is "OpenSTA".</br>
+Before that do the synthesis;
+```docker```
+
+```./flow.tcl -interactive```
+
+```package require openlane 0.9```
+
+```prep -design picorv32a```
+
+```set lefs [glob $::env(DESIGN_DIR)/src/*.lef]```
+
+```add_lefs -src $lefs```
+
+```set ::env(SYNTH_SIZING) 1```
+
+```run_synthesis```
+![image](https://github.com/user-attachments/assets/1fddcbd8-af8f-4ae3-bac8-0c0e7bfe8010)
+
+Now, we need to create a new ```pre_sta.conf``` file under openlane folder using text editor or simply vim editor.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
