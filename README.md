@@ -1153,7 +1153,91 @@ Before that do the synthesis;
 ```run_synthesis```
 ![image](https://github.com/user-attachments/assets/1fddcbd8-af8f-4ae3-bac8-0c0e7bfe8010)
 
-Now, we need to create a new ```pre_sta.conf``` file under openlane folder using text editor or simply vim editor.
+Now, we need to create a new ```pre_sta.conf``` file under openlane folder using text editor or simply vim editor.</br>
+![image](https://github.com/user-attachments/assets/fd216646-b4de-41be-84e0-e2cca704fc51)
+
+
+Under the folder ```/openlane/designs/picorv32a/src/```, we need to create the file ```my_base.sdc```.</br>
+![image](https://github.com/user-attachments/assets/6b7504d8-8e1a-49bd-bd2b-f70b41f8cd4b)
+
+
+The changes in above file is same as in ```base.sdc``` which is in folder ```openlane/scripts```.</br>
+The ```pre_sta.conf``` file is the file where we'll be doing the Pre-layout Timing Analysis.</br>
+
+We will do ```sta pre_sta.conf``` as shown below.</br>
+![image](https://github.com/user-attachments/assets/d1713c12-921f-437a-b20d-2b83a09a9e7d)
+
+![image](https://github.com/user-attachments/assets/d0a42eeb-ea74-4895-9706-babe276d8834)
+![image](https://github.com/user-attachments/assets/1c34f164-9cac-4313-a48a-619e26fd0aae)
+![image](https://github.com/user-attachments/assets/405b2d9a-d494-4e33-8fab-89cb3e63bb7e)
+
+### Lab steps to Optimize synthesis to reduce setup violations
+The Delay of any cell is number of input slew and output load, so more the I/P slew more will be the delay and similarly more output capacitances more will be the delay.</br>
+We will now try to optimize the value of fanout by ```set ::env(SYNTH_MAX_FANOUT) 4```, do the following steps:
+
+```prep -design picorv32a -tag 29-06_13-23 -overwrite```
+
+```set lefs [glob $::env(DESIGN_DIR)/src/*.lef]```
+
+```add_lefs -src $lefs```
+
+```set ::env(SYNTH_SIZING) 1```
+
+```set ::env(SYNTH_MAX_FANOUT) 4```
+
+```echo $::env(SYNTH_DRIVING_CELL)```
+
+```run_synthesis```
+set the fanout to be 4.</br>
+![image](https://github.com/user-attachments/assets/dacff8e8-e759-4e56-98a0-663bf5075ec9)
+
+![image](https://github.com/user-attachments/assets/0951f5e1-ccb9-48c1-9908-fd8edc21ea1b)
+
+Now, the slack has been updated in ```pre_sta.conf```, if we do ```sta pre_sta.conf``` we will see the new slack.<br>
+![image](https://github.com/user-attachments/assets/0ad705a1-e9a7-4d0f-8247-9f2fc5c732af)
+![image](https://github.com/user-attachments/assets/ee2975d3-79dc-40f2-b6aa-29810262b9e1)
+
+### Lab steps to do basic timing ECO
+We can see in below example, the Or gate which has driving strength of 2 is driving 4 fanout.</br>
+![image](https://github.com/user-attachments/assets/f33492f0-e713-4bbd-b63a-31aead370adf)
+
+For this we need to replace the current OR gate with Driving Strength of 4 by using the following commands.</br>
+**1) Report the connections to the net**</br>
+```report_net -connections_11672```
+![image](https://github.com/user-attachments/assets/a5c74ec8-caa2-4bec-88b4-27a09cd416c7)
+
+**2) Check the command Syntax**</br>
+```help replace_cell```
+
+**3) Replace the cell with higher driving strength**</br>
+```replace_cell _14514_ sky130_fd_sc_hd__or3_4```
+![image](https://github.com/user-attachments/assets/66655953-4096-4228-8be1-3fd213253d97)
+
+**4) Now generate the custom timing report**</br>
+```report_checks -fields {net cap slew input_pins} -digits 4```
+![image](https://github.com/user-attachments/assets/29afcf3c-3bf4-411f-8006-dcf0469eea30)
+
+We can see the slack is reduced from -23.90 to -23.523.</br>
+![image](https://github.com/user-attachments/assets/5959f054-d8ae-4d31-bd31-0ab0de405f86)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
