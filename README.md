@@ -1188,22 +1188,27 @@ We will now try to optimize the value of fanout by ```set ::env(SYNTH_MAX_FANOUT
 ```echo $::env(SYNTH_DRIVING_CELL)```
 
 ```run_synthesis```
+
+
 set the fanout to be 4.</br>
 ![image](https://github.com/user-attachments/assets/dacff8e8-e759-4e56-98a0-663bf5075ec9)
 
 ![image](https://github.com/user-attachments/assets/0951f5e1-ccb9-48c1-9908-fd8edc21ea1b)
 
 Now, the slack has been updated in ```pre_sta.conf```, if we do ```sta pre_sta.conf``` we will see the new slack.<br>
+
 ![image](https://github.com/user-attachments/assets/0ad705a1-e9a7-4d0f-8247-9f2fc5c732af)
 ![image](https://github.com/user-attachments/assets/ee2975d3-79dc-40f2-b6aa-29810262b9e1)
 
 ### Lab steps to do basic timing ECO
 We can see in below example, the Or gate which has driving strength of 2 is driving 4 fanout.</br>
+
 ![image](https://github.com/user-attachments/assets/f33492f0-e713-4bbd-b63a-31aead370adf)
 
 For this we need to replace the current OR gate with Driving Strength of 4 by using the following commands.</br>
 **1) Report the connections to the net**</br>
 ```report_net -connections_11672```
+
 ![image](https://github.com/user-attachments/assets/a5c74ec8-caa2-4bec-88b4-27a09cd416c7)
 
 **2) Check the command Syntax**</br>
@@ -1211,14 +1216,70 @@ For this we need to replace the current OR gate with Driving Strength of 4 by us
 
 **3) Replace the cell with higher driving strength**</br>
 ```replace_cell _14514_ sky130_fd_sc_hd__or3_4```
+
 ![image](https://github.com/user-attachments/assets/66655953-4096-4228-8be1-3fd213253d97)
 
 **4) Now generate the custom timing report**</br>
 ```report_checks -fields {net cap slew input_pins} -digits 4```
+
 ![image](https://github.com/user-attachments/assets/29afcf3c-3bf4-411f-8006-dcf0469eea30)
 
 We can see the slack is reduced from -23.90 to -23.523.</br>
+
 ![image](https://github.com/user-attachments/assets/5959f054-d8ae-4d31-bd31-0ab0de405f86)
+
+### Clock Tree routing and buffering using H-tree Algorithm
+Let's briefly explain what "Clock Tree Synthesis" is all about.</br>
+
+Here we can see that clk1 is connected to FF1, FF2 and below also FF1 and FF2.</br>
+
+![image](https://github.com/user-attachments/assets/da7083e3-4fea-4faf-9e9d-70e443f301e2)
+
+the purpose is to make clk1 reach respective FFs. Let's blindly do the connections.</br>
+![image](https://github.com/user-attachments/assets/cdc04f87-78bd-4e19-b95a-85d3cd1fe0b0)
+
+We will what problems arise in this connection. Here we can see that the clock t1 and t2 is not equal due to obvious physical desugn reasons. So there will be 'skew' which won't be equal to 0. To make this skew=0, this couldn't be the required tree. This is a bad driven tree.</br>
+![image](https://github.com/user-attachments/assets/b213a8b1-3d73-4791-8f34-53f9bce9ccff)
+
+To solve this, we will do H-tree synthesis. An H-tree is a specific and commonly used clock distribution network topology used in Clock Tree Synthesis (CTS). It is especially useful for distributing the clock signal symmetrically and evenly across large chips. Here, the (clk) will enter from a midpoint, allowing it to reach all flip-flops at approximately the same time. Similarly, we will connect clk2 to the flip-flops using the midpoint approach. This will ensure that the timing required by the clocks to reacht he FFs will be almost same and the skew value will come close to 0.</br>
+
+![image](https://github.com/user-attachments/assets/72d5e341-b507-4eaf-930f-113d52535110)
+
+Next is **clock tree Buffering**, we know that the clock requires wires and these wires have their resiatances and capacitances. Like for example if the signal starts from clk1 and reaches to FFs, there might capacitance charging in between, which can lose the signal integrity till it reaches the final point. The solution of this problem is to add "repeaters".</br>
+
+![image](https://github.com/user-attachments/assets/873a4962-07f7-4307-933f-6b7240ac255b)
+
+Due to the wire length and the presence of RC networks, the waveform at the output does not match the input. To resolve this issue, we use repeaters. The key difference between repeaters used for the clock and those used for the data path is that clock repeaters maintain equal rise and fall times.</br>
+The first step is to remove the existing clock route, place two repeaters, and allow the clock signal to pass through them. In this setup, the waveform generated at the input will properly propagate to the output. We can add as many repeaters as needed to maintain the continuous flow of the clock signal until the output.</br>
+
+![image](https://github.com/user-attachments/assets/f9c30d0b-7c28-4f17-afbf-05113134fbbd)
+
+### Crosstalk and clock net sheilding
+**Clock Net shielding**: Till now we have built the clk tree in such a fashion that the skew between the launch flop and capture flop is 0. Skew means the latency difference between clk ports of the flop pins. Clk net shielding is the critical net scene in the design. But if phenonemon of crosstalks occurs in the line, everything built will be deteriorated.</br>
+In clock net shielding we will take a particular clock and shield it from the outside world. This prevents coupling between wires which causes "glitch" and "delta t delay".</br>
+
+![image](https://github.com/user-attachments/assets/74ba95ae-7412-4f6d-b126-c3cd1707ace1)
+
+Let’s consider one clock net. Whenever there is a switching activity on the aggressor net, the coupling capacitance between adjacent wires can cause interference. If this capacitance is significant, any switching activity on the aggressor will directly affect the nearby clock net, leading to signal integrity problems like glitches or unexpected delays.</br>
+
+![image](https://github.com/user-attachments/assets/fea90ca2-47bd-41f5-8444-4c6fb1889790)
+
+Shielding is a technique used to protect the net from problems like glitch and delta delay. In shielding, an extra wire is placed between two signal wires where coupling capacitance is generated. This extra wire is either connected to ground (GND) or VDD to absorb interference.</br>
+We see the amount of delta delay because of the bump when we are switching from logic '1' to logic '0'. And skew is not anymore 0 here. So the impact of crosstalk delta delay is that it make the skew value non-zero.</br>
+
+![image](https://github.com/user-attachments/assets/6f3d0b72-5a08-4b97-9aff-231bf036199e)
+
+### Lab steps to run CTS using TritonCTS
+
+
+
+
+
+
+
+
+
+
 
 
 
