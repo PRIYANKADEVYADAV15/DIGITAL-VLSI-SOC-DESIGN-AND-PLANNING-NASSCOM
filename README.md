@@ -1287,7 +1287,14 @@ ls -ltr
 ```
 
 ***Copy the old netlist**
-![image](https://github.com/user-attachments/assets/bec72149-b6b1-47b2-9b60-909bc988abc6)
+```bash
+cp picorv32a.synthesis.v picorv32a.synthesis_old.v
+```
+
+***Verify the copied netlist**
+```bash
+ls -ltr
+```
 
 
 
