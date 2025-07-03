@@ -1276,25 +1276,112 @@ The image below shows the netlist before doing the modifications.</br>
 ![image](https://github.com/user-attachments/assets/a4892908-afdc-4b49-bb96-dee57863266d)
 
 To do this, follow the steps below:
-**Navigate to the directory**
+**1) Navigate to the directory**
 ```bash
 cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/29-06_13-23/results/synthesis/
 ```
 
-**List the contents**
+**2) List the contents**
 ```bash
 ls -ltr
 ```
 
-***Copy the old netlist**
+**3) Copy the old netlist**
 ```bash
 cp picorv32a.synthesis.v picorv32a.synthesis_old.v
 ```
 
-***Verify the copied netlist**
+**4) Verify the copied netlist**
 ```bash
 ls -ltr
 ```
+
+We will run Synthesis, floorplan, placement and cts in openlane directory. Follow the steps below:
+```bash
+prep -design picorv32a 
+
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+set ::env(SYNTH_SIZING) 1
+
+run_synthesis
+
+init_floorplan
+place_io
+tap_decap_or
+
+run_placement
+
+# If any error occurs during CTS, use the following command
+unset ::env(LIB_CTS)
+
+run_cts
+```
+
+This flow begins by initializing the design using the given tag, followed by the addition of required LEF files. It proceeds with synthesis using a delay-driven approach and continues through the stages of floorplanning, IO placement, tap/decap insertion, placement, and clock tree synthesis (CTS). If an error occurs during CTS, running the ```unset ::env(LIB_CTS)``` command can help resolve the issue before attempting CTS again.
+
+![Screenshot 2025-07-01 142315](https://github.com/user-attachments/assets/b8ceafd0-4d96-42b7-a6a7-18844d30bbfd)
+
+![Screenshot 2025-07-01 142439](https://github.com/user-attachments/assets/f314afaf-d2c9-4801-a2ff-e4a9f558b7fe)
+
+![Screenshot 2025-07-01 142540](https://github.com/user-attachments/assets/d2b7b552-bd4c-4e01-9fd6-5d79a108518c)
+
+![Screenshot 2025-07-01 142627](https://github.com/user-attachments/assets/25381267-13f2-47b2-9bed-d62b6b36863a)
+
+![Screenshot 2025-07-01 142646](https://github.com/user-attachments/assets/d40ccd7e-b68a-4097-ad56-e29993fe16d6)
+
+![Screenshot 2025-07-01 142712](https://github.com/user-attachments/assets/97342d1b-b475-4cc8-a8ed-af432bc0a978)
+
+After this we will get a new netlist created, with file name ```picorv32a.synthesis_cts.v``` in the location given below:</br>
+```bash
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/01-07_08-51/results/synthesis/
+```
+**Purpose of CTS**
+
+Before CTS:
+
+The clock signal is typically just a single net connected directly to all clocked elements (flip-flops, registers).</br>
+
+This leads to high clock skew and uneven delays across the design.</br>
+
+After CTS:
+
+The tool inserts buffers/inverters and builds a balanced tree to distribute the clock signal evenly.</br>
+
+The result is a well-balanced clock tree that minimizes skew and latency.</br>
+
+**Why a New Netlist is Generated**
+The original synthesized netlist did not have actual clock buffers, inverters, or the tree structure.</br>
+
+After run_cts, the tool modifies the netlist by:</br>
+
+Adding clock buffers (e.g., BUFs or INVs).</br>
+
+Creating new nets and connections for the clock distribution.</br>
+
+Updating timing information (like arrival times, skew, etc.).</br>
+
+### Lab steps to verify CTS runs
+To create a database in OpenROAD using LEF and DEF files, follow these steps:</br>
+
+First, navigate to the directory containing the required LEF and DEF files.</br>
+
+Next, launch the OpenROAD tool by running:</br>
+```nginx
+openroad
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
