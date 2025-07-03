@@ -1372,6 +1372,26 @@ Next, launch the OpenROAD tool by running:</br>
 ```nginx
 openroad
 ```
+Once inside the OpenROAD environment, execute the following commands to build the database:</br>
+**To load the LEF file:**
+```bash
+read_lef /openLANE_flow/designs/picorv32a/runs/02-04_05-27/tmp/merged.lef
+```
+
+**To load the DEF file:**
+```bash
+read_def /openLANE_flow/designs/picorv32a/runs/02-04_05-27/results/cts/picorv32a.cts.def
+```
+
+To save the OpenROAD database as ```pico_cts.db```:</br>
+```nginx
+write_db pico_cts.db
+```
+
+After running these commands, you’ll find the ```pico_cts.db``` database file in your OpenLane directory.</br>
+
+### Lab steps to analyze timing with real clocks using OpenSTA
+
 
 
 
