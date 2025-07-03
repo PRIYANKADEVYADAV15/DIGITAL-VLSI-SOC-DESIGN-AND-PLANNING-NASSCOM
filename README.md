@@ -1270,6 +1270,26 @@ We see the amount of delta delay because of the bump when we are switching from 
 ![image](https://github.com/user-attachments/assets/6f3d0b72-5a08-4b97-9aff-231bf036199e)
 
 ### Lab steps to run CTS using TritonCTS
+We now need to replace the old netlist with the newly generated netlist with reduced slack. Replace the previous synthesis file with the modified one.</br>
+The image below shows the netlist before doing the modifications.</br>
+
+![image](https://github.com/user-attachments/assets/a4892908-afdc-4b49-bb96-dee57863266d)
+
+To do this, follow the steps below:
+**Navigate to the directory**
+```bash
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/29-06_13-23/results/synthesis/
+```
+
+**List the contents**
+```bash
+ls -ltr
+```
+
+***Copy the old netlist**
+![image](https://github.com/user-attachments/assets/bec72149-b6b1-47b2-9b60-909bc988abc6)
+
+
 
 
 
