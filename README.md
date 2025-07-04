@@ -1390,7 +1390,459 @@ write_db pico_cts.db
 
 After running these commands, you’ll find the ```pico_cts.db``` database file in your OpenLane directory.</br>
 
+## Timing Analysis with real clock using openSTA
+
+### Setup Timing Analysis using real clocks
+The actual clock tree differs from an ideal clock in that it includes components like buffers and interconnect wires. In a real scenario, the clock signal doesn't reach the launch and capture flip-flops instantly at time t = 0 because it passes through a series of buffers. Due to this delay, the clock reaches the flip-flops at different times. As a result, the timing equation for the combinational circuit becomes:
+
+(θ + 1 + 2) < (T + 1 + 3 + 4)
+
+Previously, in an ideal case without such delays, the condition was simply:
+
+θ < T;
+where θ represents the path delay, 1 and 2 are the clock delays to the launch flip-flop, 3 and 4 are the clock delays to the capture flip-flop. T is the clock period.This equation accounts for the additional clock delays introduced by the clock tree elements like buffers and wires.</br>
+
+![image](https://github.com/user-attachments/assets/66506eb0-d44e-446d-bb6f-144bbcbf84cd)
+
+Let’s define “1 + 2” as ∆1, and “1 + 3 + 4” as ∆2, where the skew is given by (∆1 − ∆2).</br>
+![image](https://github.com/user-attachments/assets/7dfaddec-b2ca-435e-91f4-51843a37f059)
+
+And here also we need to consider propagation skew(s) and uncertainity delay(US), So the final equation becomes (θ+∆1)<(T+∆2-S-US).
+Here, (θ + ∆1) represents the data arrival time, while (T + ∆2 – S – US) is the data required time.</br>
+
+If the data required time minus data arrival time is positive, the design meets timing. However, if the result is negative, it's referred to as negative slack, indicating a timing violation.</br>
+
+### Hold Timing Analysis
+Hold timing analysis differs slightly from setup timing analysis. In this case, the same clock edge is sent simultaneously to both the launch and capture flip-flops.</br>
+The hold condition states that: Hold time (H) < Combinational delay (θ) or θ > H.<br>
+This ensures that date is not captured too early at the capture flip flop.</br>
+
+![image](https://github.com/user-attachments/assets/a34c7a86-dd9b-467b-8cba-6377e8fc46f4)
+
+Hence, finite time 'H' required for 'Qm' to reach Q i.e., internal delay of MUX2= hold time.
+
+Now, if we add the real time clock, the equation will be changed, now equation becomes (θ+∆1) > (H+∆2).
+
+![image](https://github.com/user-attachments/assets/785ad0b6-9b7c-4754-83ea-30062a3239bf)
+
+### Hold Time Analysis using real clocks
+For hold timing, the combinational delay must be greater than the hold time of the capture flip-flop. When the clock reaches the launch flip-flop, it typically goes through a delay of about 2 buffers (∆1), while for the capture flip-flop, the delay is around 3 buffers (∆2). Since the same clock edge drives both flip-flops, the clock uncertainty (US) is identical for both. Now, let's include the uncertainty term in the hold timing equation.</br>
+
+![image](https://github.com/user-attachments/assets/3d23cd95-e255-477f-ae93-9b0a3b09ebd6)
+
+Slack is calculated as Data arrival time minus Data required time. Slack should either be positive or zero. If slack becomes negative, it is referred to as a violation.
+
+![image](https://github.com/user-attachments/assets/9f68344b-c9aa-44b8-be0c-7f48e6858e21)
+
+Let's identify the timing paths from design, with single clock.</br>
+
+![image](https://github.com/user-attachments/assets/f0af0a86-b589-42f3-b283-e5ad996b887b)
+
+![image](https://github.com/user-attachments/assets/beb55178-7607-4a16-837f-b6f6bc52164f)
+![image](https://github.com/user-attachments/assets/75914cbb-b669-4559-92a4-c7388fd3ec8f)
+
+
 ### Lab steps to analyze timing with real clocks using OpenSTA
+Till now we ran ```run_cts```
+**Command to start OPENROAD tool**
+
+```bash
+openroad
+```
+
+**Load the design file into openROAD**
+```tcl
+# Read LEF file 
+read_lef /openLANE_flow/designs/picorv32a/runs/01-07_08-51/tmp/merged.lef
+
+# Read DEF file 
+read_def /openLANE_flow/designs/picorv32a/runs/01-07_08-51/results/cts/picorv32a.cts.def
+```
+
+**Create and load the openROAD database**
+```tcl
+# Create an OpenROAD database from the loaded LEF and DEF
+write_db pico_cts.db
+
+# Load the created database
+read_db pico_cts.db
+```
+
+**Read Netlist, Library and Contraints**
+```tcl
+# Read netlist generated after CTS
+read_verilog /openLANE_flow/designs/picorv32a/runs/01-07_08-51/results/synthesis/picorv32a.synthesis_cts.v
+
+# Read the timing library for the design
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+# Link the design with the library
+link_design picorv32a
+
+# Read the custom SDC file containing constraints
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+```
+
+**Set clocks and Timings Reports**
+```tcl
+# Set all clocks as propagated clocks
+set_propagated_clock [all_clocks]
+
+# Check syntax and options for the report_checks command
+help report_checks
+
+# Generate a detailed timing report
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+```
+
+Exit OpenRoad
+```ngnix
+openroad
+```
+
+![Screenshot 2025-07-01 142853](https://github.com/user-attachments/assets/69b19f01-76a4-45f9-ba8d-b8797b56956f)
+
+![Screenshot 2025-07-01 143243](https://github.com/user-attachments/assets/6ffbd416-cc1b-4262-b787-b2dd65527a7f)
+
+![Screenshot 2025-07-01 143514](https://github.com/user-attachments/assets/1ed1a3b2-b227-452d-806f-6a9f9d8be5f6)
+
+![Screenshot 2025-07-01 143633](https://github.com/user-attachments/assets/247b58fd-6bf1-4e74-a023-22dfaee79fe6)
+
+![Screenshot 2025-07-01 143729](https://github.com/user-attachments/assets/c40947b6-12f0-4751-a27b-650de5a89551)
+
+![Screenshot 2025-07-01 143846](https://github.com/user-attachments/assets/dcdcec4a-fbb5-4a91-8b4d-d30f2874f64d)
+
+![Screenshot 2025-07-01 143944](https://github.com/user-attachments/assets/4217b98f-e7c5-4c0f-ad04-834efab26f63)
+
+![Screenshot 2025-07-01 144027](https://github.com/user-attachments/assets/f040d8a5-af0d-4d7a-8c39-c9bb2ebf12e8)
+
+![Screenshot 2025-07-01 144300](https://github.com/user-attachments/assets/16f10421-95ba-4deb-998a-529bdc5f943e)
+
+![Screenshot 2025-07-01 144442](https://github.com/user-attachments/assets/f4517314-ce19-449f-b8ec-eb5bb2fbf29a)
+
+![Screenshot 2025-07-01 144655](https://github.com/user-attachments/assets/f2e9de70-ae17-4b24-b975-21b6f1fd1079)
+
+![Screenshot 2025-07-01 144710](https://github.com/user-attachments/assets/29902c57-15ae-4243-b34b-9872b452eed9)
+
+# Day 5 -Final step for RTL2GDS using tritinRoute and openSTA
+
+## Routing and design rule check (DRC)
+
+### Introduction to Maze Routing – Lee’s algorithm
+
+The next and final stage in the physical design process is Routing and DRC.
+
+**Routing:**
+Routing involves determining the shortest and most efficient path to connect two endpoints — one being the source and the other the target — while minimizing twists and turns in the connection.
+
+**Maze Routing (Lee’s Algorithm):**
+This algorithm aims to avoid excessive zig-zag paths, favoring more L-shaped or Z-shaped connections. The process begins by dividing the routing area into a grid, known as the routing grid, which serves as the framework for backend routing.
+
+Each grid cell has specific dimensions, and the goal is to use this grid to find the optimal path between the source and target points.
+
+In the first step, the algorithm labels all the adjacent grid cells around the source. However, it only labels horizontal and vertical neighbors, not the diagonal ones, as illustrated in the image below.
+![image](https://github.com/user-attachments/assets/0ec4b34c-ac08-4c7f-bd4c-1f35b558fcf8)
+
+### Lee’s Algorithm Conclusion:
+The grids are labeled with successive integers step by step until the target point is reached. In the given example, the target is reached when the label reaches the integer 9.
+
+![image](https://github.com/user-attachments/assets/2c47c88e-7807-47e5-8710-fd261d140ab7)
+
+Now, there are multiple possible paths to reach the target from the source, but the goal is to select the best and shortest possible path. It is preferable to avoid zig-zag paths and instead choose routing paths that are primarily in ‘L’ shape for better efficiency.
+
+![image](https://github.com/user-attachments/assets/11abc5a2-c4db-47fe-956c-6f3b6556d0e6)
+
+Now, let’s consider another example for routing and follow the exact same steps as demonstrated in the previous example.
+
+![image](https://github.com/user-attachments/assets/815dde56-e999-46e8-8a78-cf7915beff7a)
+
+![image](https://github.com/user-attachments/assets/ebf23646-1497-49f8-97b3-e832a4dfc71f)
+
+### Design Rule Check
+
+To proceed with Design Rule Check (DRC), we must first go through a process known as DRC cleaning.
+
+For example, consider the circuit mentioned above. Suppose we have two parallel wires—the design rules specify that there must be a minimum spacing maintained between any two such wires to avoid violations.
+
+![image](https://github.com/user-attachments/assets/28d21fbd-29eb-4f3e-a0c7-00364ab4382b)
+
+**Rule 1 – Wire Width:** The width of the wire must meet a minimum requirement, which is determined based on the optical wavelength of the lithography technique being used.
+
+![image](https://github.com/user-attachments/assets/58cb3759-ff5e-49a6-9843-99847c576df3)
+
+**Rule 2 – Wire Pitch:** The minimum pitch between two wires must be maintained as specified, as shown in the figure below.
+
+![image](https://github.com/user-attachments/assets/938c03e4-4f4e-4d6f-a4c5-a93e65c4edcc)
+
+**Rule 3 – Wire Spacing:** The spacing between two wires should follow the required minimum distance, as demonstrated in the image below.
+
+![image](https://github.com/user-attachments/assets/b73c0365-e531-4682-a7a4-190eff3bfae7)
+
+Let’s consider another aspect of the design rule check using the same example.
+
+![image](https://github.com/user-attachments/assets/38d924f7-9177-4b6c-8c87-6a9970875635)
+
+The solution to this signal short problem is to move one of the wires to a different metal layer. Typically, the upper metal layers are wider compared to the lower ones.
+
+![image](https://github.com/user-attachments/assets/da54eac1-bd8a-4ff2-962a-2980d5cd49bc)
+
+After this solution, we add two new DRC rules should be check.
+
+**Rule 1) Via Width:**- via width should be some minimum value.
+![image](https://github.com/user-attachments/assets/c1fa7d06-ea87-45ee-ac8c-482630249a8d)
+
+**Rule 2 – Via Spacing:** The spacing between vias should adhere to the specified minimum value.
+![image](https://github.com/user-attachments/assets/4dce1929-2f9a-461c-91b7-1f885c83d5db)
+
+After routing and DRC, the next step is parasitic extraction. The resistance and capacitance present on every wire are extracted and used for the subsequent steps in the flow.
+
+![image](https://github.com/user-attachments/assets/773eeecc-7f0b-4019-93c8-0c2936004d13)
+
+## Power Distribution Network and routing
+### Lab steps to build power distribution network
+
+Command for the previous terminal are given bellow:
+
+```nginx
+docker
+
+./flow.tcl -interactive
+
+package require openlane 0.9
+
+prep -design picorv32a -tag 01-07_08-51 //we are not using -overwrite so that we can continue from our last run
+
+echo $::env(CURRENT_DEF) //to see until which step we performed in the previous run
+```
+
+So, till here we have done CTS and now we are going to do the routing. but before routing we have to generate the PDN(power distribution network)file by using the command.
+
+```gen_pdn```
+![Screenshot 2025-07-01 151303](https://github.com/user-attachments/assets/fed85b74-e0ac-46d5-86d9-820455129055)
+
+The command:
+
+```echo $::env(CURRENT_DEF)```
+**Meaning:**
+This command prints the path of the current DEF (Design Exchange Format) file that OpenLANE is using at that point in the flow.
+
+CURRENT_DEF is an environment variable that stores the most recent DEF file generated during the physical design process. This file holds the layout information of the design corresponding to the current stage — whether it’s post-placement, post-CTS, or post-routing.
+
+It is used To verify which DEF file OpenLANE is currently using. It Helps determine if the flow is working with the placement DEF, CTS DEF, or routed DEF. Useful for debugging, manual interventions, or verifying the progress of the design.
+
+![Screenshot 2025-07-01 144829](https://github.com/user-attachments/assets/5245c56a-52d8-42f2-9c72-1c758df51824)
+![Screenshot 2025-07-01 145056](https://github.com/user-attachments/assets/147bb5c4-ef2d-40b9-a32e-7c18b42199ce)
+
+It seems that the net VGND represents all the nodes within the grid matrix, indicating that it has been properly generated. The chip is powered via the VDD and GND pads, and this power is distributed through the power tracks, eventually reaching the cells to provide them with the required power supply.</br>
+
+### Lab steps from power straps to std cell power
+
+1)Padframe (Outer Yellow Blocks):
+Positioned along the chip's outer boundary, these include both I/O and corner pads. They act as the interface between the internal circuitry of the chip and the external environment, such as the PCB or package.
+
+2)Power Pad Placement:
+VDD (shown in red) and GND (shown in blue) pads are strategically placed at regular intervals on the padframe. These are the entry points for power into the chip.
+
+3)Core Power Ring:
+Surrounding the core area is a ring formed by thick red (VDD) and blue (GND) lines. This ring ensures that power is distributed evenly from the padframe into the core.
+
+4)Power Stripes:
+From the power ring, horizontal and vertical stripes extend inward across the core. These stripes carry VDD and GND closer to the individual cells to maintain consistent power delivery.
+
+5)Power Connections within Standard Cells:
+Within the core region, the rows of standard cells connect to the power grid through these stripes. This structure ensures that every logic cell has access to a reliable power supply.
+
+6)Standard Cell Rows (Green Area):
+This area houses most of the chip’s logic elements. The cells are organized in aligned rows to simplify routing and optimize power distribution.
+
+7)Macro Cell (RAM - Pink Block):
+Larger blocks, like RAM or other hard macros, occupy dedicated spaces within the core. These often come with their own local power rings to ensure stable operation.
+
+8)Halo Region around Macros:
+A buffer space, known as the halo, surrounds macro blocks. It prevents routing congestion and keeps standard cells at a safe distance from the macros.
+
+9)Core-to-I/O Spacing:
+A gap is maintained between the core and the padframe. This space allows for smooth routing of both signal and power lines from the core to the I/O pads.
+
+### Basics of global and detail routing and configure TritonRoute
+The final step of physical design is Routing.
+
+Commands to Load PDN DEF in Magic (from another terminal):
+```tcl
+# Navigate to the directory where the PDN DEF file is located
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-06_07-09/tmp/floorplan/
+
+# Load the PDN DEF file into Magic
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech \lef read../../tmp/merged.lef\def read 17-pdn.def &
+```
+![Screenshot 2025-07-01 151955](https://github.com/user-attachments/assets/f3c8f259-b965-4ddc-bf63-6b028166dd2e)
+
+Image of the pdn def
+![Screenshot 2025-07-01 152037](https://github.com/user-attachments/assets/f2d2cfe1-71ba-4058-b970-8ea082db32ab)
+
+![Screenshot 2025-07-01 152053](https://github.com/user-attachments/assets/e1cb6b3b-fded-41fa-ae3f-2061610ef5f2)
+
+![Screenshot 2025-07-01 152153](https://github.com/user-attachments/assets/1e9d8576-9345-416e-917d-fafe4007ceda)
+
+![Screenshot 2025-07-01 152254](https://github.com/user-attachments/assets/f4a2d3a4-cf51-4f55-b020-f122e34a21fd)
+
+### Perform Routing using TritonRoute
+**Commands to perform routing**
+
+```tcl
+# Check the current DEF file in use
+echo $::env(CURRENT_DEF)
+
+# Check the current routing strategy being applied
+echo $::env(ROUTING_STRATEGY)
+
+# Run detailed routing using TritonRoute
+run_routing
+```
+
+![Screenshot 2025-07-01 152512](https://github.com/user-attachments/assets/70215072-d9c3-4a2f-babc-d8d58cd1aa9c)
+
+![Screenshot 2025-07-01 172914](https://github.com/user-attachments/assets/8d4f5386-f17a-4eda-afdf-9427719381d5)
+
+![Screenshot 2025-07-01 172837](https://github.com/user-attachments/assets/953f6013-7839-4216-8712-0e67822f103c)
+
+**Commands to Load Routed DEF in Magic (from another terminal):**
+```tcl
+# Navigate to the directory where the routed DEF file is located
+cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-06_07-09/results/routing/
+
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech \lef read ../../tmp/merged.lef def read picorv32a.def &
+```
+![Screenshot 2025-07-01 173319](https://github.com/user-attachments/assets/7091c917-1dfb-456b-ac1d-72c4de744188)
+
+![Screenshot 2025-07-01 173419](https://github.com/user-attachments/assets/da0d256c-e4bc-4089-9485-695512268465)
+
+![Screenshot 2025-07-01 173547](https://github.com/user-attachments/assets/c8d9ba8a-a901-4ef5-ade0-fa3822b6a7f8)
+
+![Screenshot 2025-07-01 173637](https://github.com/user-attachments/assets/f9591415-ed39-4c5a-b8f8-f9ca705975fb)
+
+## Post-Route Parasitic Extraction Using SPEF Extractor
+### Commands for SPEF Extraction Using External Tool:
+```tcl
+# Navigate to the SPEF extractor directory
+cd Desktop/work/tools/SPEF_EXTRACTOR
+
+# Run the SPEF extraction command
+python3 main.py /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-06_07-09/tmp/merged.lef /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/30-06_07-09/results/routing/picorv32a.def
+```
+### Post-Route OpenSTA Timing Analysis with Extracted Parasitics (SPEF) Using OpenROAD
+### Post-Route OpenSTA Timing Analysis with Extracted Parasitics (SPEF) Using OpenROAD
+
+```nginx
+openroad
+
+read_lef /openLANE_flow/designs/picorv32a/runs/30-06_07-09/tmp/merged.lef
+
+read_def /openLANE_flow/designs/picorv32a/runs/30-06_07-09/results/routing/picorv32a.def
+
+write_db pico_route.db
+
+read_db pico_route.db
+
+read_verilog /openLANE_flow/designs/picorv32a/runs/30-06_07-09/results/synthesis/picorv32a.synthesis_preroute.v
+
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+link_design picorv32a
+
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+set_propagated_clock [all_clocks]
+
+read_spef /openLANE_flow/designs/picorv32a/runs/30-06_07-09/results/routing/picorv32a.spef
+
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+# Exit OpenROAD
+exit
+```
+
+![Screenshot 2025-07-01 174651](https://github.com/user-attachments/assets/e6e47bdd-afce-4d68-ac49-92850d9374c8)
+
+![Screenshot 2025-07-01 174720](https://github.com/user-attachments/assets/9863d14e-20f9-4c70-afbd-9eeae9302c74)
+
+# REFERENCES
+[Google SkyWater PDK](https://github.com/google/skywater-pdk)
+[VSD Standard Cell Design by Nickson Jose](https://github.com/nickson-jose/vsdstdcelldesign)
+[Ngspice – Open Source Circuit Simulator](https://sourceforge.net/projects/ngspice/)
+[VSD Workshop GitHub Material](https://github.com/)
+[Introduction to Industrial Physical Design Flow (PDF)](https://www.vlsisystemdesign.com/wp-content/uploads/2017/07/Introduction-to-Industrial-Physical-Design-Flow.pdf)
+[NPTEL – Physical Design of Digital VLSI Systems by Prof. Indranil Sengupta](https://nptel.ac.in/courses/117105150)
+
+# ACKNOWLEDGMENT
+I would like to express my sincere thanks to Mr. Kunal Ghosh, Co-founder of VSD Corp. Pvt. Ltd., and Mr. Nickson Jose for their exceptional guidance during the DIGITAL-VLSI-SOC-DESIGN-AND-PLANNING workshop.
+
+Their expertise and clear instruction helped me gain a solid understanding of physical chip design using OpenLANE and other advanced VLSI concepts. The workshop was well-structured and highly informative, and I’m truly grateful for the opportunity to learn from them.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
