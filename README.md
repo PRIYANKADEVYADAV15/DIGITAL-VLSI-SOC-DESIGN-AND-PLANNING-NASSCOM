@@ -1774,7 +1774,7 @@ exit
 * [Introduction to Industrial Physical Design Flow (PDF)](https://www.vlsisystemdesign.com/wp-content/uploads/2017/07/Introduction-to-Industrial-Physical-Design-Flow.pdf)
 * [NPTEL – Physical Design of Digital VLSI Systems by Prof. Indranil Sengupta](https://nptel.ac.in/courses/117105150)
 
-# ACKNOWLEDGMENT
+# ACKNOWLEDGEMENT
 I would like to express my sincere thanks to Mr. Kunal Ghosh, Co-founder of VSD Corp. Pvt. Ltd., and Mr. Nickson Jose for their exceptional guidance during the DIGITAL-VLSI-SOC-DESIGN-AND-PLANNING workshop.
 
 Their expertise and clear instruction helped me gain a solid understanding of physical chip design using OpenLANE and other advanced VLSI concepts. The workshop was well-structured and highly informative, and I’m truly grateful for the opportunity to learn from them.
